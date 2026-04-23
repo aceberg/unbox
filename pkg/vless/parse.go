@@ -88,6 +88,10 @@ func ParseVLESS(raw string) (*VLESS, error) {
 			Head:     head,
 			ServName: q.Get("serviceName"),
 		}
+
+		if res.Trans.Type == "xhttp" || res.Trans.Type == "tcp" {
+			res.Trans = nil
+		}
 	}
 	if sec == "reality" {
 		tls := res.Tls
