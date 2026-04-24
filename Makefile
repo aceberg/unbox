@@ -6,7 +6,10 @@ mod:
 
 run:
 	cd cmd/unbox/ && \
-	go run .
+	go run . \
+		-f ../../tmp/VLESS.txt \
+		-t ../../configs/sing-box.json.templ \
+		> ../../tmp/sing-box.json
 
 fmt:
 	go fmt ./...

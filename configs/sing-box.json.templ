@@ -1,0 +1,24 @@
+{
+  "log": {
+    "level": "info"
+  },
+  "inbounds": [
+    {
+      "type": "socks",
+      "listen": "0.0.0.0",
+      "listen_port": 1080
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "urltest",
+      "tag": "auto",
+      "outbounds": [
+        {{.Unbox_tags}}
+      ],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m"
+    },
+    {{.Unbox_outbounds}}
+  ]
+}
