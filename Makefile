@@ -8,8 +8,8 @@ run:
 	cd cmd/unbox/ && \
 	go run . \
 		-f ../../tmp/VLESS.txt \
-		-t ../../configs/sing-box.json.templ \
-		> ../../tmp/sing-box.json
+ 		-t ../../configs/sing-box.tmpl.json \
+ 		-o ../../tmp/sing-box.json
 
 fmt:
 	go fmt ./...
@@ -19,11 +19,3 @@ lint:
 	golint ./...
 
 check: fmt lint
-
-go-build:
-	cd cmd/unbox/ && \
-	CGO_ENABLED=0 go build -o ../../tmp/unbox .
-
-brun: go-build
-	cd tmp && \
-	./unbox

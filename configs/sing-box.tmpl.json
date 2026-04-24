@@ -14,11 +14,11 @@
       "type": "urltest",
       "tag": "auto",
       "outbounds": [
-        {{.Unbox_tags}}
+        {{ .Unbox_tags }}
       ],
       "url": "https://www.gstatic.com/generate_204",
       "interval": "10m"
     },
-    {{.Unbox_outbounds}}
+{{ .Unbox_outbounds }}
   ]
 }
