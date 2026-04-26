@@ -1,3 +1,7 @@
+[![Main-Docker](https://github.com/aceberg/unbox/actions/workflows/main-docker-all.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/main-docker-all.yml)
+[![Binary-release](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml)
+[![Binary-Android](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml)
+
 # unbox
 
 Converts a list of `vless://` links to a sing-box config file.
@@ -11,6 +15,14 @@ In this example `sing-box.tmpl.json` is a [template](configs/sing-box.tmpl.json)
 ```sh
 unbox -f VLESS.txt -t sing-box.tmpl.json -o sing-box.json
 ```
+### Docker
+```sh
+docker run -it -v /your/local/path:/data \
+    aceberg/unbox \
+     -f /data/VLESS.txt \
+     -t /data/sing-box.tmpl.json \
+     -o /data/sing-box.json
+```
 
 ## Options
 
@@ -22,3 +34,18 @@ unbox -f VLESS.txt -t sing-box.tmpl.json -o sing-box.json
 | -t | Path to template sing-box config. Example [here](configs/sing-box.tmpl.json). There are only two variables available in template: `{{ .Unbox_tags }}` and `{{ .Unbox_outbounds }}` |  |
 
 ## Install
+### Docker
+There are DockerHub and GitHub images:
+```sh
+docker pull aceberg/unbox
+```
+```sh
+docker pull ghcr.io/aceberg/unbox
+```
+
+### Binary
+All available binaries are listed in the [latest](https://github.com/aceberg/unbox/releases/latest) release.    
+For `amd64` there is an `apt` [repo](https://github.com/aceberg/ppa).
+
+### Android and Termux
+For `arm64` there are `android` and `termux.deb` [files](https://github.com/aceberg/unbox/releases/latest).
