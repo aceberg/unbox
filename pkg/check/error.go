@@ -5,7 +5,7 @@ import (
 	"log"
 )
 
-// IfError prints error, if it is not nil
+// IfError prints error, if it is not nil and returns true, otherwise returns false
 func IfError(err error) bool {
 	if err == nil {
 		return false

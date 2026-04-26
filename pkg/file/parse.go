@@ -16,12 +16,13 @@ type Conf struct {
 	OutPath      string
 	TemplatePath string
 	RenameTags   bool
+	ValidateJSON bool
 }
 
 // Config - app config
 var Config Conf
 
-// Parse file with links
+// Parse file with VLESS links
 func Parse() {
 	var res, tags string
 
@@ -52,10 +53,10 @@ func Parse() {
 					v.Tag = v.Tag + fmt.Sprint(" ", i)
 				}
 				i = i + 1
-				data, _ := json.MarshalIndent(v, "    ", "  ")
+				data, _ := json.MarshalIndent(v, "", "  ")
 
 				tags = tags + "\"" + v.Tag + "\","
-				res = res + "    " + string(data) + ",\n"
+				res = res + string(data) + ",\n"
 			}
 		}
 	}
@@ -74,6 +75,10 @@ func Parse() {
 		out = insertToTemplate(res, tags)
 	} else {
 		out = res
+	}
+
+	if Config.ValidateJSON {
+		out = valIndent(out)
 	}
 
 	if Config.OutPath != "" {

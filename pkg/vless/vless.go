@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-// ParseVLESS - string to struct
+// ParseVLESS converts VLESS URL to struct
 func ParseVLESS(raw string) (*VLESS, error) {
 	u, err := url.Parse(raw)
 	if err != nil {

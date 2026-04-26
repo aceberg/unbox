@@ -1,6 +1,7 @@
 [![Main-Docker](https://github.com/aceberg/unbox/actions/workflows/main-docker-all.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/main-docker-all.yml)
 [![Binary-release](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml)
 [![Binary-Android](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml)
+[![Go Reference](https://pkg.go.dev/badge/github.com/aceberg/unbox.svg)](https://pkg.go.dev/github.com/aceberg/unbox)
 
 # unbox
 
@@ -29,6 +30,7 @@ docker run -it -v /your/local/path:/data \
 | Key | Description | Default |
 | --- | ----------- | ------- |
 | -f | Path to file with `vless://` links | VLESS.txt |
+| -j | Validate and Indent json output (yes/no) | no |
 | -n | Rename tags (yes/no). If `yes`, with rename tags to `tag1`, `tag2`... | no |
 | -o | Path to output file |  |
 | -t | Path to template sing-box config. Example [here](configs/sing-box.tmpl.json). There are only two variables available in template: `{{ .Unbox_tags }}` and `{{ .Unbox_outbounds }}` |  |

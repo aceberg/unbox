@@ -2,6 +2,7 @@ package file
 
 import (
 	"bytes"
+	"encoding/json"
 	"log"
 	"os"
 	"text/template"
@@ -13,7 +14,7 @@ func getLinksFromFile() (string, bool) {
 
 	f, err := os.ReadFile(Config.FilePath)
 	if check.IfError(err) {
-		log.Println("File error. Exiting...")
+		log.Println("ERROR: Input file error. Exiting...")
 		return "", false
 	}
 
@@ -23,7 +24,10 @@ func getLinksFromFile() (string, bool) {
 func insertToTemplate(res, tags string) string {
 
 	t, err := template.ParseFiles(Config.TemplatePath)
-	check.IfError(err)
+	if check.IfError(err) {
+		log.Println("ERROR: Template file error")
+		return res
+	}
 
 	data := map[string]interface{}{
 		"Unbox_outbounds": res,
@@ -41,5 +45,21 @@ func insertToTemplate(res, tags string) string {
 func outToFile(out string) {
 
 	err := os.WriteFile(Config.OutPath, []byte(out), 0644)
+	if check.IfError(err) {
+		log.Println("ERROR: Output file error")
+	}
+}
+
+func valIndent(raw string) string {
+	var out bytes.Buffer
+
+	if !json.Valid([]byte(raw)) {
+		log.Println("ERROR: JSON is not valid!")
+		return raw
+	}
+
+	err := json.Indent(&out, []byte(raw), "", "  ")
 	check.IfError(err)
+
+	return out.String()
 }
