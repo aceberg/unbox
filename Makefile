@@ -5,11 +5,10 @@ mod:
 	go mod tidy
 
 run:
-	cd cmd/unbox/ && \
 	go run . \
-		-f ../../tmp/VLESS.txt \
- 		-t ../../configs/sing-box.tmpl.json \
- 		-o ../../tmp/sing-box.json -j yes
+		-f tmp/VLESS.txt \
+ 		-t configs/sing-box.tmpl.json \
+ 		-o tmp/sing-box.json -j yes
 
 fmt:
 	go fmt ./...

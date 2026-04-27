@@ -1,6 +1,6 @@
 project_name: unbox
 builds:
-  - main: ./cmd/unbox/
+  - main: .
     binary: unbox
     id: default
     env: [CGO_ENABLED=0]

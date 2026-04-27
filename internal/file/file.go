@@ -7,7 +7,7 @@ import (
 	"os"
 	"text/template"
 
-	"github.com/aceberg/unbox/pkg/check"
+	"github.com/aceberg/unbox/internal/check"
 )
 
 func getLinksFromFile() (string, bool) {

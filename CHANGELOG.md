@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.1.2] - 2026-04-28
+### Changed
+- Package structure
+
 ## [v0.1.1] - 2026-04-27
 ### Added
 - Validate and Indent `json` output

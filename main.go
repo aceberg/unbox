@@ -1,4 +1,4 @@
-// Unbox converts a list of `vless://` links to a sing-box config file.
+// Command unbox converts a list of `vless://` links to a sing-box config file.
 //
 // By default, it reads VLESS.txt in the current directory.
 //
@@ -15,7 +15,7 @@ package main
 import (
 	"flag"
 
-	"github.com/aceberg/unbox/pkg/file"
+	"github.com/aceberg/unbox/internal/file"
 )
 
 func main() {

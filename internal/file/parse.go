@@ -6,11 +6,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/aceberg/unbox/pkg/check"
-	"github.com/aceberg/unbox/pkg/vless"
+	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/vless"
 )
 
-// Conf - app config type
+// Conf contains command-line options for unbox
 type Conf struct {
 	FilePath     string
 	OutPath      string
