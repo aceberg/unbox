@@ -19,9 +19,9 @@ unbox -f VLESS.txt -t sing-box.tmpl.json -o sing-box.json
 ```sh
 docker run -it -v /your/local/path:/data \
     aceberg/unbox \
-     -f /data/VLESS.txt \
-     -t /data/sing-box.tmpl.json \
-     -o /data/sing-box.json
+    -f /data/VLESS.txt \
+    -t /data/sing-box.tmpl.json \
+    -o /data/sing-box.json
 ```
 
 ## Options
