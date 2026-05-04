@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/hysteria2"
 	"github.com/aceberg/unbox/internal/vless"
 )
 
@@ -56,6 +57,23 @@ func Parse() {
 				data, _ := json.MarshalIndent(v, "", "  ")
 
 				tags = tags + "\"" + v.Tag + "\","
+				res = res + string(data) + ",\n"
+			}
+		}
+
+		// keep only Hysteria2 links (case-insensitive)
+		if strings.HasPrefix(strings.ToLower(line), "hysteria2://") {
+			h, err := hysteria2.ParseHyst2(line)
+			if !check.IfError(err) {
+				if Config.RenameTags {
+					h.Tag = fmt.Sprint("tag", i)
+				} else {
+					h.Tag = h.Tag + fmt.Sprint(" ", i)
+				}
+				i = i + 1
+				data, _ := json.MarshalIndent(h, "", "  ")
+
+				tags = tags + "\"" + h.Tag + "\","
 				res = res + string(data) + ",\n"
 			}
 		}
