@@ -1,7 +1,9 @@
 package vless
 
 import (
+	"errors"
 	"net/url"
+	"slices"
 	"strconv"
 )
 
@@ -33,6 +35,10 @@ func ParseVLESS(raw string) (*VLESS, error) {
 		PackEnc: "xudp",
 	}
 
+	if res.Flow != "" && res.Flow != "xtls-rprx-vision" {
+		return nil, errors.New("Unsupported flow: " + res.Flow)
+	}
+
 	sec := q.Get("security")
 	if sec == "tls" {
 		var head *Headers
@@ -49,7 +55,9 @@ func ParseVLESS(raw string) (*VLESS, error) {
 			ServName: q.Get("serviceName"),
 		}
 
-		if res.Trans.Type == "xhttp" || res.Trans.Type == "tcp" {
+		allowedTransport := []string{"http", "ws", "quic", "grpc", "httpupgrade"}
+
+		if !slices.Contains(allowedTransport, res.Trans.Type) {
 			res.Trans = nil
 		}
 	}
