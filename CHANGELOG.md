@@ -2,6 +2,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.1.3] - 2026-05-10
+### Added
+- Hysteria2 support
+- Bug fixes
+
 ## [v0.1.2] - 2026-04-28
 ### Changed
 - Package structure

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"strings"
 	"text/template"
 
 	"github.com/aceberg/unbox/internal/check"
@@ -21,7 +22,13 @@ func getLinksFromFile() (string, bool) {
 	return string(f), true
 }
 
-func insertToTemplate(res, tags string) string {
+func insertToTemplate() string {
+
+	res := strings.Join(result, ",\n")
+
+	if Config.TemplatePath == "" {
+		return res
+	}
 
 	t, err := template.ParseFiles(Config.TemplatePath)
 	if check.IfError(err) {
@@ -31,7 +38,7 @@ func insertToTemplate(res, tags string) string {
 
 	data := map[string]interface{}{
 		"Unbox_outbounds": res,
-		"Unbox_tags":      tags,
+		"Unbox_tags":      strings.Join(tags, ","),
 	}
 
 	var buf bytes.Buffer

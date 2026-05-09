@@ -1,4 +1,4 @@
-// Command unbox converts a list of `vless://` links to a sing-box config file.
+// Command unbox converts a list of `vless://` and `hysteria2://`  links to a sing-box config file.
 //
 // By default, it reads VLESS.txt in the current directory.
 //
@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-	filePtr := flag.String("f", "VLESS.txt", "Path to file with vless:// links")
+	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
 	tmplPtr := flag.String("t", "", "Path to template sing-box config")
 	outPtr := flag.String("o", "", "Path to output file")
 	namePtr := flag.String("n", "no", "Rename tags (yes|no)")
@@ -41,5 +41,5 @@ func main() {
 		file.Config.ValidateJSON = true
 	}
 
-	file.Parse()
+	file.Start()
 }

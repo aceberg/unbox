@@ -4,10 +4,10 @@
 
 # unbox
 
-Converts a list of `vless://` links to a sing-box config file.
+Converts a list of `vless://` and `hysteria2://` links to a sing-box config file.
 
 ## Quick start
-Here `VLESS.txt` is a file with `vless://` links. Unbox will ignore anything else in the file, including other protocols and comments.
+Here `VLESS.txt` is a file with `vless://` and `hysteria2://` links. Unbox will ignore anything else in the file, including other protocols and comments.
 ```sh
 unbox -f VLESS.txt
 ```
@@ -28,7 +28,7 @@ docker run -it -v /your/local/path:/data \
 
 | Key | Description | Default |
 | --- | ----------- | ------- |
-| -f | Path to file with `vless://` links | VLESS.txt |
+| -f | Path to file with links | VLESS.txt |
 | -j | Validate and Indent json output (yes/no) | no |
 | -n | Rename tags (yes/no). If `yes`, will rename tags to `tag1`, `tag2`... | no |
 | -o | Path to output file |  |

@@ -11,31 +11,17 @@ import (
 	"github.com/aceberg/unbox/internal/vless"
 )
 
-// Conf contains command-line options for unbox
-type Conf struct {
-	FilePath     string
-	OutPath      string
-	TemplatePath string
-	RenameTags   bool
-	ValidateJSON bool
-}
-
-// Config - app config
-var Config Conf
-
-// Parse file with VLESS links
-func Parse() {
-	var res, tags string
+// Parse file with links
+func parseFile() {
 
 	file, ok := getLinksFromFile()
 	if !ok {
 		return
 	}
 
-	r := strings.NewReader(file)
-	i := 1
+	i = 1
 
-	scanner := bufio.NewScanner(r)
+	scanner := bufio.NewScanner(strings.NewReader(file))
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 
@@ -48,16 +34,8 @@ func Parse() {
 		if strings.HasPrefix(strings.ToLower(line), "vless://") {
 			v, err := vless.ParseVLESS(line)
 			if !check.IfError(err) {
-				if Config.RenameTags {
-					v.Tag = fmt.Sprint("tag", i)
-				} else {
-					v.Tag = v.Tag + fmt.Sprint(" ", i)
-				}
-				i = i + 1
-				data, _ := json.MarshalIndent(v, "", "  ")
-
-				tags = tags + "\"" + v.Tag + "\","
-				res = res + string(data) + ",\n"
+				v.Tag = renameTag(v.Tag)
+				addResult(v, v.Tag)
 			}
 		}
 
@@ -65,43 +43,31 @@ func Parse() {
 		if strings.HasPrefix(strings.ToLower(line), "hysteria2://") {
 			h, err := hysteria2.ParseHyst2(line)
 			if !check.IfError(err) {
-				if Config.RenameTags {
-					h.Tag = fmt.Sprint("tag", i)
-				} else {
-					h.Tag = h.Tag + fmt.Sprint(" ", i)
-				}
-				i = i + 1
-				data, _ := json.MarshalIndent(h, "", "  ")
-
-				tags = tags + "\"" + h.Tag + "\","
-				res = res + string(data) + ",\n"
+				h.Tag = renameTag(h.Tag)
+				addResult(h, h.Tag)
 			}
 		}
 	}
 
 	err := scanner.Err()
 	check.IfError(err)
+}
 
-	if i > 1 {
-		tags = tags[:len(tags)-1]
-		res = res[:len(res)-2]
-	}
+func renameTag(in string) (out string) {
 
-	var out string
-
-	if Config.TemplatePath != "" {
-		out = insertToTemplate(res, tags)
+	if Config.RenameTags {
+		out = fmt.Sprint("tag", i)
 	} else {
-		out = res
+		out = in + fmt.Sprint(" ", i)
 	}
+	i = i + 1
 
-	if Config.ValidateJSON {
-		out = valIndent(out)
-	}
+	return out
+}
 
-	if Config.OutPath != "" {
-		outToFile(out)
-	} else {
-		fmt.Println(out)
-	}
+func addResult(a any, t string) {
+
+	data, _ := json.MarshalIndent(a, "", "  ")
+	result = append(result, string(data))
+	tags = append(tags, "\""+t+"\"")
 }
