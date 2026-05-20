@@ -8,6 +8,7 @@ import (
 
 	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/internal/hysteria2"
+	"github.com/aceberg/unbox/internal/trojan"
 	"github.com/aceberg/unbox/internal/vless"
 )
 
@@ -45,6 +46,15 @@ func parseFile() {
 			if !check.IfError(err) {
 				h.Tag = renameTag(h.Tag)
 				addResult(h, h.Tag)
+			}
+		}
+
+		// keep only Trojan links (case-insensitive)
+		if strings.HasPrefix(strings.ToLower(line), "trojan://") {
+			t, err := trojan.ParseTrojan(line)
+			if !check.IfError(err) {
+				t.Tag = renameTag(t.Tag)
+				addResult(t, t.Tag)
 			}
 		}
 	}

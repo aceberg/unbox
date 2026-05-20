@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.1.4] - 2026-05-21
+### Added
+- Trojan (ws) support
+
 ## [v0.1.3] - 2026-05-10
 ### Added
 - Hysteria2 support
