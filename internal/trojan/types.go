@@ -20,11 +20,11 @@ type Transport struct {
 
 // Trojan config
 type Trojan struct {
-	Type     string    `json:"type"`
-	Tag      string    `json:"tag"`
-	Server   string    `json:"server"`
-	Port     int       `json:"server_port"`
-	Password string    `json:"password"`
-	TLS      TLS       `json:"tls"`
-	Trans    Transport `json:"transport"`
+	Type     string     `json:"type"`
+	Tag      string     `json:"tag"`
+	Server   string     `json:"server"`
+	Port     int        `json:"server_port"`
+	Password string     `json:"password"`
+	TLS      TLS        `json:"tls"`
+	Trans    *Transport `json:"transport,omitempty"`
 }

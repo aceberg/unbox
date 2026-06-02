@@ -2,6 +2,7 @@ package trojan
 
 import (
 	"net/url"
+	"slices"
 	"strconv"
 )
 
@@ -29,13 +30,19 @@ func ParseTrojan(raw string) (*Trojan, error) {
 			Enabled: true,
 			SNI:     q.Get("sni"),
 		},
-		Trans: Transport{
+		Trans: &Transport{
 			Type: q.Get("type"),
 			Path: q.Get("path"),
 			Head: &Headers{
 				Host: q.Get("host"),
 			},
 		},
+	}
+
+	allowedTransport := []string{"http", "ws", "quic", "grpc", "httpupgrade"}
+
+	if !slices.Contains(allowedTransport, res.Trans.Type) {
+		res.Trans = nil
 	}
 
 	return res, nil

@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.1.5] - 2026-06-02
+### Added
+- Bug fixes for Trojan
+
 ## [v0.1.4] - 2026-05-21
 ### Added
 - Trojan (ws) support
