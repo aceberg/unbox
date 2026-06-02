@@ -10,6 +10,11 @@ run:
  		-t tmp/tmpl.json \
  		-o tmp/sing-box.json -j yes
 
+arun:
+	go run . \
+		-a "http://127.0.0.1:9090" \
+ 		-o tmp/sing-box.json
+
 fmt:
 	go fmt ./...
 

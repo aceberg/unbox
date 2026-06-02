@@ -15,10 +15,12 @@ package main
 import (
 	"flag"
 
+	"github.com/aceberg/unbox/internal/api"
 	"github.com/aceberg/unbox/internal/file"
 )
 
 func main() {
+	apiPtr := flag.String("a", "", "Path to sing-box Clash API")
 	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
 	tmplPtr := flag.String("t", "", "Path to template sing-box config")
 	outPtr := flag.String("o", "", "Path to output file")
@@ -26,6 +28,17 @@ func main() {
 	jsonPtr := flag.String("j", "no", "Validate and Indent json output (yes|no)")
 
 	flag.Parse()
+
+	if *apiPtr != "" {
+
+		api.Config = api.Conf{
+			ApiPath: *apiPtr,
+			OutPath: *outPtr,
+		}
+
+		api.Start()
+		return
+	}
 
 	file.Config = file.Conf{
 		FilePath:     *filePtr,
