@@ -8,7 +8,7 @@ import (
 	"github.com/aceberg/unbox/internal/check"
 )
 
-func editConfig(aliveTags []string) {
+func editConfig(aliveTags []ProxyServer) {
 
 	f, err := os.ReadFile(Config.OutPath)
 	check.IfError(err)
@@ -32,7 +32,7 @@ func editConfig(aliveTags []string) {
 
 			newUrltest := make([]any, len(aliveTags))
 			for j, tag := range aliveTags {
-				newUrltest[j] = tag
+				newUrltest[j] = tag.Tag
 			}
 			ob["outbounds"] = newUrltest
 			newOutbounds[i] = ob

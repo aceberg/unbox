@@ -26,6 +26,7 @@ func main() {
 	outPtr := flag.String("o", "", "Path to output file")
 	namePtr := flag.String("n", "no", "Rename tags (yes|no)")
 	jsonPtr := flag.String("j", "no", "Validate and Indent json output (yes|no)")
+	keepPtr := flag.String("k", "no", "Keep alive")
 
 	flag.Parse()
 
@@ -34,6 +35,10 @@ func main() {
 		api.Config = api.Conf{
 			ApiPath: *apiPtr,
 			OutPath: *outPtr,
+		}
+
+		if *keepPtr == "yes" {
+			api.Config.KeepAlive = true
 		}
 
 		api.Start()

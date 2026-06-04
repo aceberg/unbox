@@ -15,6 +15,11 @@ arun:
 		-a "http://127.0.0.1:9090" \
  		-o tmp/sing-box.json
 
+krun:
+	go run . \
+		-a "http://127.0.0.1:9091" \
+ 		-k yes
+
 fmt:
 	go fmt ./...
 
