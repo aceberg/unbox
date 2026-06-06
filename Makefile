@@ -17,8 +17,8 @@ arun:
 
 krun:
 	go run . \
-		-a "http://127.0.0.1:9091" \
- 		-k yes
+		-a "http://127.0.0.1:9093" \
+ 		-k
 
 fmt:
 	go fmt ./...

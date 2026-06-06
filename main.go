@@ -1,44 +1,31 @@
-// Command unbox converts a list of `vless://` and `hysteria2://`  links to a sing-box config file.
-//
-// By default, it reads VLESS.txt in the current directory.
-//
-// Usage:
-//
-//	unbox -f VLESS.txt
-//
-// With template and output file:
-//
-//	unbox -f VLESS.txt -t sing-box.tmpl.json -o sing-box.json
-
 package main
 
 import (
 	"flag"
+	_ "time/tzdata"
 
 	"github.com/aceberg/unbox/internal/api"
 	"github.com/aceberg/unbox/internal/file"
 )
 
 func main() {
+	jsonPtr := flag.Bool("j", false, "Validate and Indent json output")
+	namePtr := flag.Bool("n", false, "Rename tags")
+	keepPtr := flag.Bool("k", false, "Keep alive")
+
 	apiPtr := flag.String("a", "", "Path to sing-box Clash API")
 	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
 	tmplPtr := flag.String("t", "", "Path to template sing-box config")
 	outPtr := flag.String("o", "", "Path to output file")
-	namePtr := flag.String("n", "no", "Rename tags (yes|no)")
-	jsonPtr := flag.String("j", "no", "Validate and Indent json output (yes|no)")
-	keepPtr := flag.String("k", "no", "Keep alive")
 
 	flag.Parse()
 
 	if *apiPtr != "" {
 
 		api.Config = api.Conf{
-			ApiPath: *apiPtr,
-			OutPath: *outPtr,
-		}
-
-		if *keepPtr == "yes" {
-			api.Config.KeepAlive = true
+			ApiPath:   *apiPtr,
+			OutPath:   *outPtr,
+			KeepAlive: *keepPtr,
 		}
 
 		api.Start()
@@ -49,14 +36,8 @@ func main() {
 		FilePath:     *filePtr,
 		TemplatePath: *tmplPtr,
 		OutPath:      *outPtr,
-	}
-
-	if *namePtr == "yes" {
-		file.Config.RenameTags = true
-	}
-
-	if *jsonPtr == "yes" {
-		file.Config.ValidateJSON = true
+		RenameTags:   *namePtr,
+		ValidateJSON: *jsonPtr,
 	}
 
 	file.Start()

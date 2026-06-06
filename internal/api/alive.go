@@ -14,11 +14,12 @@ type ProxyServer struct {
 	Delay int
 }
 
-func getAliveTags() []ProxyServer {
-	var aliveTags []ProxyServer
+func getProxyList() map[string]any {
 
 	resp, err := http.Get(Config.ApiPath + "/proxies")
-	check.IfError(err)
+	if check.IfError(err) {
+		return nil
+	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
@@ -29,6 +30,14 @@ func getAliveTags() []ProxyServer {
 	check.IfError(err)
 
 	proxies := data["proxies"].(map[string]any)
+
+	return proxies
+}
+
+func getAliveTags() []ProxyServer {
+	var aliveTags []ProxyServer
+
+	proxies := getProxyList()
 
 	for tag, p := range proxies {
 		proxy := p.(map[string]any)
@@ -59,18 +68,7 @@ func getAliveTags() []ProxyServer {
 func getAllTags() []string {
 	var allTags []string
 
-	resp, err := http.Get(Config.ApiPath + "/proxies")
-	check.IfError(err)
-	defer resp.Body.Close()
-
-	body, err := io.ReadAll(resp.Body)
-	check.IfError(err)
-
-	var data map[string]any
-	err = json.Unmarshal(body, &data)
-	check.IfError(err)
-
-	proxies := data["proxies"].(map[string]any)
+	proxies := getProxyList()
 
 	for tag, p := range proxies {
 		proxy := p.(map[string]any)
@@ -84,4 +82,23 @@ func getAllTags() []string {
 	}
 
 	return allTags
+}
+
+func getSelectorName() string {
+	var selName string
+
+	proxies := getProxyList()
+
+	for _, p := range proxies {
+		proxy := p.(map[string]any)
+
+		ptype := proxy["type"]
+		if ptype == "Selector" {
+
+			selName = proxy["name"].(string)
+			break
+		}
+	}
+
+	return selName
 }

@@ -66,6 +66,12 @@ func testOneProxy(tag string, logPref string) bool {
 
 func switchProxy(tag string) {
 
+	selName := getSelectorName()
+	if selName == "" {
+		log.Println(colorRed + "ERROR" + colorCyan + "[MAIN] " + colorReset + "Can't get Selector tag name to select new proxy")
+		return
+	}
+
 	log.Println(colorYellow+"WARN "+colorCyan+"[MAIN] "+colorReset+"Selecting proxy:", tag)
 	currentProxy = tag
 
@@ -73,7 +79,7 @@ func switchProxy(tag string) {
 
 	req, _ := http.NewRequest(
 		"PUT",
-		Config.ApiPath+"/proxies/selector",
+		Config.ApiPath+"/proxies/"+selName,
 		body,
 	)
 	req.Header.Set("Content-Type", "application/json")
