@@ -17,6 +17,7 @@ func main() {
 	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
 	tmplPtr := flag.String("t", "", "Path to template sing-box config")
 	outPtr := flag.String("o", "", "Path to output file")
+	urlPtr := flag.String("u", "", "URL to test proxies")
 
 	flag.Parse()
 
@@ -26,6 +27,7 @@ func main() {
 			ApiPath:   *apiPtr,
 			OutPath:   *outPtr,
 			KeepAlive: *keepPtr,
+			TestURL:   *urlPtr,
 		}
 
 		api.Start()

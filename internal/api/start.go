@@ -7,6 +7,7 @@ type Conf struct {
 	ApiPath   string
 	OutPath   string
 	KeepAlive bool
+	TestURL   string
 }
 
 // Config - app config
@@ -18,6 +19,7 @@ func Start() {
 		keepConnectionAlive()
 
 	} else {
+		testAllTags()
 		aliveTags := getAliveTags()
 		if len(aliveTags) == 0 {
 			log.Println("No proxies online. Exiting")

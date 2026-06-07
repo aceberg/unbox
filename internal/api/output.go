@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"slices"
 
 	"github.com/aceberg/unbox/internal/check"
 )
@@ -23,22 +24,28 @@ func editConfig(aliveTags []ProxyServer) {
 		return
 	}
 
-	newOutbounds := make([]any, len(outbounds))
+	var newOutbounds []any
 
-	for i, o := range outbounds {
+	for _, o := range outbounds {
 		ob := o.(map[string]any)
 
-		if ob["type"] == "urltest" {
+		if ob["type"] == "urltest" || ob["type"] == "selector" {
 
 			newUrltest := make([]any, len(aliveTags))
 			for j, tag := range aliveTags {
 				newUrltest[j] = tag.Tag
 			}
 			ob["outbounds"] = newUrltest
-			newOutbounds[i] = ob
+			newOutbounds = append(newOutbounds, ob)
 
 		} else {
-			newOutbounds[i] = o
+			tag := ob["tag"].(string)
+			isAlive := slices.ContainsFunc(aliveTags, func(t ProxyServer) bool {
+				return t.Tag == tag
+			})
+			if isAlive {
+				newOutbounds = append(newOutbounds, ob)
+			}
 		}
 	}
 

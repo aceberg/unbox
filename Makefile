@@ -12,12 +12,12 @@ run:
 
 arun:
 	go run . \
-		-a "http://127.0.0.1:9090" \
- 		-o tmp/sing-box.json
+		-a "http://127.0.0.1:9092" \
+ 		-o tmp/sing-box.json -u "https://t.me"
 
 krun:
 	go run . \
-		-a "http://127.0.0.1:9093" \
+		-a "http://127.0.0.1:9091" \
  		-k
 
 fmt:

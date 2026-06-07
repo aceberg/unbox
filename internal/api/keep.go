@@ -17,20 +17,18 @@ var (
 )
 
 const (
-	colorRed     = "\033[31m"
-	colorGreen   = "\033[32m"
-	colorYellow  = "\033[33m"
-	colorBlue    = "\033[34m"
-	colorMagenta = "\033[35m"
-	colorCyan    = "\033[36m"
-	colorReset   = "\033[0m"
+	colorErr   = "\033[31m" // red
+	colorBkp   = "\033[32m" // green
+	colorWarn  = "\033[33m" // yellow
+	colorMain  = "\033[36m" // cyan
+	colorReset = "\033[0m"  // reset
 )
 
 func keepConnectionAlive() {
 
 	go testCurrentProxy()
 	go updateAliveTags()
-	go testAllTags()
+	go testAllTagsRoutine()
 
 	for {
 		if !alive {
@@ -39,7 +37,7 @@ func keepConnectionAlive() {
 				alive = true
 				switchProxy(tag)
 			} else {
-				log.Println(colorRed + "ERROR" + colorCyan + "[MAIN] " + colorReset + "No proxies online!")
+				log.Println(colorErr + "ERROR" + colorMain + "[MAIN] " + colorReset + "No proxies online!")
 			}
 		}
 
@@ -49,7 +47,12 @@ func keepConnectionAlive() {
 
 func testOneProxy(tag string, logPref string) bool {
 
-	resp, err := http.Get(Config.ApiPath + "/proxies/" + tag + "/delay?timeout=3000")
+	url := "https://www.gstatic.com/generate_204"
+	if Config.TestURL != "" {
+		url = Config.TestURL
+	}
+
+	resp, err := http.Get(Config.ApiPath + "/proxies/" + tag + "/delay?timeout=3000&url=" + url)
 	check.IfError(err)
 
 	defer resp.Body.Close()
@@ -68,11 +71,11 @@ func switchProxy(tag string) {
 
 	selName := getSelectorName()
 	if selName == "" {
-		log.Println(colorRed + "ERROR" + colorCyan + "[MAIN] " + colorReset + "Can't get Selector tag name to select new proxy")
+		log.Println(colorErr + "ERROR" + colorMain + "[MAIN] " + colorReset + "Can't get Selector tag name to select new proxy")
 		return
 	}
 
-	log.Println(colorYellow+"WARN "+colorCyan+"[MAIN] "+colorReset+"Selecting proxy:", tag)
+	log.Println(colorWarn+"WARN "+colorMain+"[MAIN] "+colorReset+"Selecting proxy:", tag)
 	currentProxy = tag
 
 	body := strings.NewReader(`{"name":"` + tag + `"}`)
@@ -86,59 +89,6 @@ func switchProxy(tag string) {
 
 	_, err := http.DefaultClient.Do(req)
 	check.IfError(err)
-}
-
-func testCurrentProxy() {
-
-	for {
-		if currentProxy != "" {
-			ok := testOneProxy(currentProxy, colorCyan+"[MAIN]"+colorReset)
-			if !ok {
-				alive = false
-			}
-		}
-
-		time.Sleep(time.Duration(5) * time.Second)
-	}
-}
-
-func updateAliveTags() {
-
-	for {
-		for i, tag := range aliveTags {
-
-			if tag.Tag == currentProxy {
-				continue
-			}
-
-			if i > 3 {
-				break
-			}
-
-			testOneProxy(tag.Tag, colorGreen+"[BKP] "+colorReset)
-		}
-
-		aliveTags = getAliveTags()
-
-		time.Sleep(time.Duration(30) * time.Second)
-	}
-}
-
-func testAllTags() {
-	for {
-		for _, tag := range getAllTags() {
-
-			if tag == currentProxy {
-				continue
-			}
-
-			testOneProxy(tag, "[ALL] ")
-		}
-
-		aliveTags = getAliveTags()
-
-		time.Sleep(time.Duration(5*60) * time.Second)
-	}
 }
 
 func chooseTag() (string, bool) {
