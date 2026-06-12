@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.2.2] - 2026-06-13
+### Added
+- Flags for delays between proxy checks
+- Better logs
+- Small fixes for VLESS
+
 ## [v0.2.1] - 2026-06-07
 ### Added
 - Option to remove offline servers from `sing-box` config

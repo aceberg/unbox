@@ -21,17 +21,22 @@ func ParseVLESS(raw string) (*VLESS, error) {
 
 	q := u.Query()
 
-	res := &VLESS{
-		Type:   "vless",
-		Tag:    u.Fragment,
-		Server: u.Hostname(),
-		Port:   portInt,
-		UUID:   u.User.Username(),
-		Flow:   q.Get("flow"),
-		TLS: TLS{
+	var tls *TLS
+	if q.Get("sni") != "" {
+		tls = &TLS{
 			Enabled: true,
 			SNI:     q.Get("sni"),
-		},
+		}
+	}
+
+	res := &VLESS{
+		Type:    "vless",
+		Tag:     u.Fragment,
+		Server:  u.Hostname(),
+		Port:    portInt,
+		UUID:    u.User.Username(),
+		Flow:    q.Get("flow"),
+		TLS:     tls,
 		PackEnc: "xudp",
 	}
 
@@ -39,28 +44,27 @@ func ParseVLESS(raw string) (*VLESS, error) {
 		return nil, errors.New("Unsupported flow: " + res.Flow)
 	}
 
-	sec := q.Get("security")
-	if sec == "tls" {
-		var head *Headers
-		if q.Get("host") != "" {
-			head = &Headers{
-				Host: q.Get("host"),
-			}
-		}
-
-		res.Trans = &Transport{
-			Type:     q.Get("type"),
-			Path:     q.Get("path"),
-			Head:     head,
-			ServName: q.Get("serviceName"),
-		}
-
-		allowedTransport := []string{"http", "ws", "quic", "grpc", "httpupgrade"}
-
-		if !slices.Contains(allowedTransport, res.Trans.Type) {
-			res.Trans = nil
+	var head *Headers
+	if q.Get("host") != "" {
+		head = &Headers{
+			Host: q.Get("host"),
 		}
 	}
+
+	res.Trans = &Transport{
+		Type:     q.Get("type"),
+		Path:     q.Get("path"),
+		Head:     head,
+		ServName: q.Get("serviceName"),
+	}
+
+	allowedTransport := []string{"http", "ws", "quic", "grpc", "httpupgrade"}
+
+	if !slices.Contains(allowedTransport, res.Trans.Type) {
+		res.Trans = nil
+	}
+
+	sec := q.Get("security")
 	if sec == "reality" {
 		tls := res.TLS
 		tls.Real = &Reality{

@@ -8,6 +8,9 @@ type Conf struct {
 	OutPath   string
 	KeepAlive bool
 	TestURL   string
+	DelayMain uint
+	DelayBkp  uint
+	DelayAll  uint
 }
 
 // Config - app config

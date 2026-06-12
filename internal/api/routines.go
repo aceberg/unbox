@@ -1,6 +1,9 @@
 package api
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 func testCurrentProxy() {
 
@@ -12,7 +15,7 @@ func testCurrentProxy() {
 			}
 		}
 
-		time.Sleep(time.Duration(5) * time.Second)
+		time.Sleep(time.Duration(Config.DelayMain) * time.Second)
 	}
 }
 
@@ -34,7 +37,7 @@ func updateAliveTags() {
 
 		aliveTags = getAliveTags()
 
-		time.Sleep(time.Duration(30) * time.Second)
+		time.Sleep(time.Duration(Config.DelayBkp) * time.Second)
 	}
 }
 
@@ -44,17 +47,21 @@ func testAllTagsRoutine() {
 
 		aliveTags = getAliveTags()
 
-		time.Sleep(time.Duration(5*60) * time.Second)
+		time.Sleep(time.Duration(Config.DelayAll) * time.Second)
 	}
 }
 
 func testAllTags() {
-	for _, tag := range getAllTags() {
+
+	tags := getAllTags()
+	l := len(tags)
+
+	for i, tag := range tags {
 
 		if tag == currentProxy {
 			continue
 		}
 
-		testOneProxy(tag, "[ALL] ")
+		testOneProxy(tag, "["+strconv.Itoa(i+1)+"-"+strconv.Itoa(l)+"]")
 	}
 }

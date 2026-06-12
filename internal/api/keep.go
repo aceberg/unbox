@@ -26,9 +26,15 @@ const (
 
 func keepConnectionAlive() {
 
-	go testCurrentProxy()
-	go updateAliveTags()
-	go testAllTagsRoutine()
+	if Config.DelayMain > 0 {
+		go testCurrentProxy()
+	}
+	if Config.DelayBkp > 0 {
+		go updateAliveTags()
+	}
+	if Config.DelayAll > 0 {
+		go testAllTagsRoutine()
+	}
 
 	for {
 		if !alive {

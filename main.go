@@ -19,6 +19,10 @@ func main() {
 	outPtr := flag.String("o", "", "Path to output file")
 	urlPtr := flag.String("u", "", "URL to test proxies")
 
+	allPtr := flag.Uint("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
+	bkpPtr := flag.Uint("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
+	mainPtr := flag.Uint("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
+
 	flag.Parse()
 
 	if *apiPtr != "" {
@@ -28,6 +32,9 @@ func main() {
 			OutPath:   *outPtr,
 			KeepAlive: *keepPtr,
 			TestURL:   *urlPtr,
+			DelayMain: *mainPtr,
+			DelayBkp:  *bkpPtr,
+			DelayAll:  *allPtr,
 		}
 
 		api.Start()

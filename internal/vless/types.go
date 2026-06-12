@@ -42,7 +42,7 @@ type VLESS struct {
 	Port    int        `json:"server_port"`
 	UUID    string     `json:"uuid"`
 	Flow    string     `json:"flow,omitempty"`
-	TLS     TLS        `json:"tls"`
+	TLS     *TLS       `json:"tls,omitempty"`
 	Trans   *Transport `json:"transport,omitempty"`
 	PackEnc string     `json:"packet_encoding"`
 }

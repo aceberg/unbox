@@ -20,6 +20,13 @@ func ParseTrojan(raw string) (*Trojan, error) {
 
 	q := u.Query()
 
+	var head *Headers
+	if q.Get("host") != "" {
+		head = &Headers{
+			Host: q.Get("host"),
+		}
+	}
+
 	res := &Trojan{
 		Type:     "trojan",
 		Tag:      u.Fragment,
@@ -33,9 +40,7 @@ func ParseTrojan(raw string) (*Trojan, error) {
 		Trans: &Transport{
 			Type: q.Get("type"),
 			Path: q.Get("path"),
-			Head: &Headers{
-				Host: q.Get("host"),
-			},
+			Head: head,
 		},
 	}
 
