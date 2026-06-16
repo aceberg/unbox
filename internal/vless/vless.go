@@ -67,6 +67,11 @@ func ParseVLESS(raw string) (*VLESS, error) {
 	sec := q.Get("security")
 	if sec == "reality" {
 		tls := res.TLS
+
+		if tls == nil {
+			tls = &TLS{}
+		}
+
 		tls.Real = &Reality{
 			Enabled: true,
 			Key:     q.Get("pbk"),
