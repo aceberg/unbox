@@ -2,12 +2,23 @@
 [![Binary-release](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml)
 [![Binary-Android](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml)
 
-# unbox
+<h1><a href="https://github.com/aceberg/unbox">
+    <img src="https://raw.githubusercontent.com/aceberg/unbox/main/assets/logo.png" width="20" />
+</a>unbox</h1>
+<br/>
 
 Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that can do 3 things:
 1. Convert a file with `vless://`,`hysteria2://`,`trojan://` links to full sing-box config
 2. Remove unreachable nodes from sing-box config file (uses sing-box Clash API)
 3. Keep connection alive and switch to another proxy immediately if not (uses sing-box Clash API)
+
+## Screenshot
+
+<details>
+  <summary>Expand</summary>
+
+![Screenshot_1](https://raw.githubusercontent.com/aceberg/unbox/main/assets/Screenshot_1.png)   
+</details> 
 
 ## Install
 <details><summary>Expand</summary>
@@ -91,3 +102,8 @@ unbox -a "http://127.0.0.1:9090" -k
 
 
 </details>
+
+## Thanks
+
+- [SagerNet/sing-box](https://github.com/SagerNet/sing-box)
+- <a href="https://www.flaticon.com/free-icons/unboxing" title="Unboxing icons">Unboxing icons created by Futuer - Flaticon</a>
