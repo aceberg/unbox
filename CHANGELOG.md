@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [v0.2.3] - 2026-06-16
 ### Fixed
-- Fixed error in VLESS convertor
+- Fixed errors
 
 ## [v0.2.2] - 2026-06-13
 ### Added

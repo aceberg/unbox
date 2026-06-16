@@ -12,8 +12,8 @@ run:
 
 arun:
 	go run . \
-		-a "http://127.0.0.1:9092" \
- 		-o tmp/sing-box.json -u "https://t.me"
+		-a "http://127.0.0.1:9091" \
+ 		-o tmp/sing-box.json
 
 krun:
 	go run . \

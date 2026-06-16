@@ -59,12 +59,16 @@ func testOneProxy(tag string, logPref string) bool {
 	}
 
 	resp, err := http.Get(Config.ApiPath + "/proxies/" + tag + "/delay?timeout=3000&url=" + url)
-	check.IfError(err)
+	if check.IfError(err) {
+		return false
+	}
 
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
-	check.IfError(err)
+	if check.IfError(err) {
+		return false
+	}
 
 	msg := string(body)
 

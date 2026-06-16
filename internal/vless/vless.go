@@ -69,7 +69,9 @@ func ParseVLESS(raw string) (*VLESS, error) {
 		tls := res.TLS
 
 		if tls == nil {
-			tls = &TLS{}
+			tls = &TLS{
+				Enabled: true,
+			}
 		}
 
 		tls.Real = &Reality{
