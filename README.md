@@ -97,6 +97,7 @@ unbox -a "http://127.0.0.1:9090" -k
 | -da | Delay between checks of all proxy servers (seconds). Use 0 to disable | 300 |
 | -db | Delay between checks of 3-4 backup servers (seconds). Use 0 to disable | 30 |
 | -dm | Delay between checks of the main server (seconds). Use 0 to disable | 5 |
+| -ds | Delay between auto switch to a faster proxy attempts (seconds). Use 0 to disable | 300 |
 | -k | Keepalive mode | |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 

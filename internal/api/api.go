@@ -102,3 +102,22 @@ func getSelectorName() string {
 
 	return selName
 }
+
+func getCurrntProxy() string {
+	var cur string
+
+	proxies := getProxyList()
+
+	for _, p := range proxies {
+		proxy := p.(map[string]any)
+
+		ptype := proxy["type"]
+		if ptype == "Selector" {
+
+			cur = proxy["now"].(string)
+			break
+		}
+	}
+
+	return cur
+}

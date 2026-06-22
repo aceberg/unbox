@@ -1,6 +1,7 @@
 package api
 
 import (
+	"log"
 	"strconv"
 	"time"
 )
@@ -8,6 +9,7 @@ import (
 func testCurrentProxy() {
 
 	for {
+		currentProxy = getCurrntProxy()
 		if currentProxy != "" {
 			ok := testOneProxy(currentProxy, colorMain+"[MAIN]"+colorReset)
 			if !ok {
@@ -63,5 +65,32 @@ func testAllTags() {
 		}
 
 		testOneProxy(tag, "["+strconv.Itoa(i+1)+"-"+strconv.Itoa(l)+"]")
+	}
+}
+
+func checkSwitch() {
+	var curDelay int
+	var betterProxy ProxyServer
+	var found bool
+
+	for {
+		found = false
+		for _, tag := range aliveTags {
+
+			if tag.Tag == currentProxy {
+				curDelay = tag.Delay
+				break
+			} else if !found {
+				betterProxy = tag
+				found = true
+			}
+		}
+
+		if found && betterProxy.Delay < (curDelay+50) {
+			log.Println(colorWarn+"WARN "+colorMain+"[MAIN] "+colorReset+"Switching to faster proxy:", betterProxy.Tag)
+			switchProxy(betterProxy.Tag)
+		}
+
+		time.Sleep(time.Duration(Config.DelaySwitch) * time.Second)
 	}
 }

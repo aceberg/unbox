@@ -22,19 +22,21 @@ func main() {
 	allPtr := flag.Uint("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
 	bkpPtr := flag.Uint("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
 	mainPtr := flag.Uint("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
+	switchPtr := flag.Uint("ds", 5*60, "Delay between auto switch to a faster proxy attempts (s). Use 0 to disable")
 
 	flag.Parse()
 
 	if *apiPtr != "" {
 
 		api.Config = api.Conf{
-			ApiPath:   *apiPtr,
-			OutPath:   *outPtr,
-			KeepAlive: *keepPtr,
-			TestURL:   *urlPtr,
-			DelayMain: *mainPtr,
-			DelayBkp:  *bkpPtr,
-			DelayAll:  *allPtr,
+			ApiPath:     *apiPtr,
+			OutPath:     *outPtr,
+			KeepAlive:   *keepPtr,
+			TestURL:     *urlPtr,
+			DelayMain:   *mainPtr,
+			DelayBkp:    *bkpPtr,
+			DelayAll:    *allPtr,
+			DelaySwitch: *switchPtr,
 		}
 
 		api.Start()

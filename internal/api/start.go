@@ -4,13 +4,14 @@ import "log"
 
 // Conf contains command-line options for unbox
 type Conf struct {
-	ApiPath   string
-	OutPath   string
-	KeepAlive bool
-	TestURL   string
-	DelayMain uint
-	DelayBkp  uint
-	DelayAll  uint
+	ApiPath     string
+	OutPath     string
+	KeepAlive   bool
+	TestURL     string
+	DelayMain   uint
+	DelayBkp    uint
+	DelayAll    uint
+	DelaySwitch uint
 }
 
 // Config - app config

@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.2.4] - 2026-06-23
+### Added
+- Transport package
+- Auto switch to faster proxy
+- Support for switching main server elsewhere
+
 ## [v0.2.3] - 2026-06-16
 ### Fixed
 - Fixed errors

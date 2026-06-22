@@ -35,6 +35,9 @@ func keepConnectionAlive() {
 	if Config.DelayAll > 0 {
 		go testAllTagsRoutine()
 	}
+	if Config.DelaySwitch > 0 {
+		go checkSwitch()
+	}
 
 	for {
 		if !alive {
