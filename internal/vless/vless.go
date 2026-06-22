@@ -3,8 +3,9 @@ package vless
 import (
 	"errors"
 	"net/url"
-	"slices"
 	"strconv"
+
+	"github.com/aceberg/unbox/internal/transport"
 )
 
 // ParseVLESS converts VLESS URL to struct
@@ -44,24 +45,9 @@ func ParseVLESS(raw string) (*VLESS, error) {
 		return nil, errors.New("Unsupported flow: " + res.Flow)
 	}
 
-	var head *Headers
-	if q.Get("host") != "" {
-		head = &Headers{
-			Host: q.Get("host"),
-		}
-	}
-
-	res.Trans = &Transport{
-		Type:     q.Get("type"),
-		Path:     q.Get("path"),
-		Head:     head,
-		ServName: q.Get("serviceName"),
-	}
-
-	allowedTransport := []string{"http", "ws", "quic", "grpc", "httpupgrade"}
-
-	if !slices.Contains(allowedTransport, res.Trans.Type) {
-		res.Trans = nil
+	tr, ok := transport.Get(q)
+	if ok {
+		res.Trans = &tr
 	}
 
 	sec := q.Get("security")

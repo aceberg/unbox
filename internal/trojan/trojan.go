@@ -2,8 +2,9 @@ package trojan
 
 import (
 	"net/url"
-	"slices"
 	"strconv"
+
+	"github.com/aceberg/unbox/internal/transport"
 )
 
 // ParseTrojan converts Trojan URL to struct
@@ -20,13 +21,6 @@ func ParseTrojan(raw string) (*Trojan, error) {
 
 	q := u.Query()
 
-	var head *Headers
-	if q.Get("host") != "" {
-		head = &Headers{
-			Host: q.Get("host"),
-		}
-	}
-
 	res := &Trojan{
 		Type:     "trojan",
 		Tag:      u.Fragment,
@@ -37,17 +31,11 @@ func ParseTrojan(raw string) (*Trojan, error) {
 			Enabled: true,
 			SNI:     q.Get("sni"),
 		},
-		Trans: &Transport{
-			Type: q.Get("type"),
-			Path: q.Get("path"),
-			Head: head,
-		},
 	}
 
-	allowedTransport := []string{"http", "ws", "quic", "grpc", "httpupgrade"}
-
-	if !slices.Contains(allowedTransport, res.Trans.Type) {
-		res.Trans = nil
+	tr, ok := transport.Get(q)
+	if ok {
+		res.Trans = &tr
 	}
 
 	return res, nil
