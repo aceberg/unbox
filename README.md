@@ -3,14 +3,16 @@
 [![Binary-Android](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml)
 
 <h1><a href="https://github.com/aceberg/unbox">
-    <img src="https://raw.githubusercontent.com/aceberg/unbox/main/assets/logo.png" width="20" />
+    <img src="https://raw.githubusercontent.com/aceberg/unbox/main/assets/logo.png" width="30" />
 </a>unbox</h1>
 <br/>
 
-Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that can do 3 things:
+Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that can do 4 things:
 1. Convert a file with `vless://`,`hysteria2://`,`trojan://` links to full sing-box config
 2. Remove unreachable nodes from sing-box config file (uses sing-box Clash API)
-3. Keep connection alive and switch to another proxy immediately if not (uses sing-box Clash API)
+3. Remove duplicate outbounds from sing-box config file
+4. Keep connection alive and switch to another proxy immediately if not (uses sing-box Clash API)
+
 
 ## Screenshot
 
@@ -79,6 +81,20 @@ unbox -a "http://127.0.0.1:9090" -o sing-box.json
 | Key | Description | Default |
 | --- | ----------- | ------- |
 | -a | URL to sing-box Clash API |  |
+| -o | Path to sing-box config file |  |
+
+</details>
+
+## Remove duplicate outbounds from sing-box config
+<details><summary>Expand</summary>
+
+```sh
+unbox -d -o sing-box.json
+```
+
+| Key | Description | Default |
+| --- | ----------- | ------- |
+| -d | Deduplicate |  |
 | -o | Path to sing-box config file |  |
 
 </details>

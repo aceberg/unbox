@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [v0.2.4] - 2026-06-23
 ### Added
+- Remove duplicate outbounds from sing-box config
 - Transport package
 - Auto switch to faster proxy
 - Support for switching main server elsewhere

@@ -9,6 +9,7 @@ import (
 )
 
 func main() {
+	dedupPtr := flag.Bool("d", false, "Deduplicate")
 	jsonPtr := flag.Bool("j", false, "Validate and Indent json output")
 	namePtr := flag.Bool("n", false, "Rename tags")
 	keepPtr := flag.Bool("k", false, "Keep alive")
@@ -26,11 +27,12 @@ func main() {
 
 	flag.Parse()
 
-	if *apiPtr != "" {
+	if *apiPtr != "" || *dedupPtr {
 
 		api.Config = api.Conf{
 			ApiPath:     *apiPtr,
 			OutPath:     *outPtr,
+			Deduplicate: *dedupPtr,
 			KeepAlive:   *keepPtr,
 			TestURL:     *urlPtr,
 			DelayMain:   *mainPtr,

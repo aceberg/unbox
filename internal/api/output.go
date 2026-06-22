@@ -9,14 +9,20 @@ import (
 	"github.com/aceberg/unbox/internal/check"
 )
 
-func editConfig(aliveTags []ProxyServer) {
-
+func getConfigFromFile() map[string]any {
 	f, err := os.ReadFile(Config.OutPath)
 	check.IfError(err)
 
 	var config map[string]any
 	err = json.Unmarshal(f, &config)
 	check.IfError(err)
+
+	return config
+}
+
+func editConfig(saveTags []ProxyServer) {
+
+	config := getConfigFromFile()
 
 	outbounds, ok := config["outbounds"].([]any)
 	if !ok {
@@ -31,8 +37,8 @@ func editConfig(aliveTags []ProxyServer) {
 
 		if ob["type"] == "urltest" || ob["type"] == "selector" {
 
-			newUrltest := make([]any, len(aliveTags))
-			for j, tag := range aliveTags {
+			newUrltest := make([]any, len(saveTags))
+			for j, tag := range saveTags {
 				newUrltest[j] = tag.Tag
 			}
 			ob["outbounds"] = newUrltest
@@ -40,7 +46,7 @@ func editConfig(aliveTags []ProxyServer) {
 
 		} else {
 			tag := ob["tag"].(string)
-			isAlive := slices.ContainsFunc(aliveTags, func(t ProxyServer) bool {
+			isAlive := slices.ContainsFunc(saveTags, func(t ProxyServer) bool {
 				return t.Tag == tag
 			})
 			if isAlive {

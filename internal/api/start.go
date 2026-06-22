@@ -12,6 +12,7 @@ type Conf struct {
 	DelayBkp    uint
 	DelayAll    uint
 	DelaySwitch uint
+	Deduplicate bool
 }
 
 // Config - app config
@@ -21,7 +22,8 @@ func Start() {
 
 	if Config.KeepAlive {
 		keepConnectionAlive()
-
+	} else if Config.Deduplicate {
+		deduplicate()
 	} else {
 		testAllTags()
 		aliveTags := getAliveTags()
