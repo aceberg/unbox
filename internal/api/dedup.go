@@ -26,6 +26,10 @@ func deduplicate() {
 			continue
 		}
 
+		if m["type"] == "urltest" || m["type"] == "selector" {
+			continue
+		}
+
 		// Copy without tag
 		cmp := make(map[string]any, len(m))
 		for k, v := range m {
