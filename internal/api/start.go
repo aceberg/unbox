@@ -5,6 +5,7 @@ import "log"
 // Conf contains command-line options for unbox
 type Conf struct {
 	ApiPath     string
+	ApiSecret   string
 	OutPath     string
 	KeepAlive   bool
 	TestURL     string
@@ -17,6 +18,12 @@ type Conf struct {
 
 // Config - app config
 var Config Conf
+
+// ProxyServer - proxy name and delay
+type ProxyServer struct {
+	Tag   string
+	Delay int
+}
 
 func Start() {
 

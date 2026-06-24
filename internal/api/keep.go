@@ -3,7 +3,6 @@ package api
 import (
 	"io"
 	"log"
-	"net/http"
 	"strings"
 	"time"
 
@@ -61,7 +60,7 @@ func testOneProxy(tag string, logPref string) bool {
 		url = Config.TestURL
 	}
 
-	resp, err := http.Get(Config.ApiPath + "/proxies/" + tag + "/delay?timeout=3000&url=" + url)
+	resp, err := apiRequest("GET", "/proxies/"+tag+"/delay?timeout=3000&url="+url, nil)
 	if check.IfError(err) {
 		return false
 	}
@@ -93,14 +92,7 @@ func switchProxy(tag string) {
 
 	body := strings.NewReader(`{"name":"` + tag + `"}`)
 
-	req, _ := http.NewRequest(
-		"PUT",
-		Config.ApiPath+"/proxies/"+selName,
-		body,
-	)
-	req.Header.Set("Content-Type", "application/json")
-
-	_, err := http.DefaultClient.Do(req)
+	_, err := apiRequest("PUT", "/proxies/"+selName, body)
 	check.IfError(err)
 }
 

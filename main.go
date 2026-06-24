@@ -5,7 +5,7 @@ import (
 	_ "time/tzdata"
 
 	"github.com/aceberg/unbox/internal/api"
-	"github.com/aceberg/unbox/internal/file"
+	"github.com/aceberg/unbox/internal/parse"
 )
 
 func main() {
@@ -15,6 +15,7 @@ func main() {
 	keepPtr := flag.Bool("k", false, "Keep alive")
 
 	apiPtr := flag.String("a", "", "Path to sing-box Clash API")
+	secPtr := flag.String("as", "", "Clash API secret")
 	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
 	tmplPtr := flag.String("t", "", "Path to template sing-box config")
 	outPtr := flag.String("o", "", "Path to output file")
@@ -31,6 +32,7 @@ func main() {
 
 		api.Config = api.Conf{
 			ApiPath:     *apiPtr,
+			ApiSecret:   *secPtr,
 			OutPath:     *outPtr,
 			Deduplicate: *dedupPtr,
 			KeepAlive:   *keepPtr,
@@ -45,7 +47,7 @@ func main() {
 		return
 	}
 
-	file.Config = file.Conf{
+	parse.Config = parse.Conf{
 		FilePath:     *filePtr,
 		TemplatePath: *tmplPtr,
 		OutPath:      *outPtr,
@@ -53,5 +55,5 @@ func main() {
 		ValidateJSON: *jsonPtr,
 	}
 
-	file.Start()
+	parse.Start()
 }

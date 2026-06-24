@@ -81,6 +81,7 @@ unbox -a "http://127.0.0.1:9090" -o sing-box.json
 | Key | Description | Default |
 | --- | ----------- | ------- |
 | -a | URL to sing-box Clash API |  |
+| -as | Clash API secret |  |
 | -o | Path to sing-box config file |  |
 
 </details>
@@ -110,6 +111,7 @@ unbox -a "http://127.0.0.1:9090" -k
 | Key | Description | Default |
 | --- | ----------- | ------- |
 | -a | URL to sing-box Clash API |  |
+| -as | Clash API secret |  |
 | -da | Delay between checks of all proxy servers (seconds). Use 0 to disable | 300 |
 | -db | Delay between checks of 3-4 backup servers (seconds). Use 0 to disable | 30 |
 | -dm | Delay between checks of the main server (seconds). Use 0 to disable | 5 |

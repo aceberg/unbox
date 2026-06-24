@@ -21,8 +21,8 @@ drun:
 
 krun:
 	go run . \
-		-a "http://127.0.0.1:9092" \
- 		-k -ds 20
+		-a "http://127.0.0.1:9091" \
+ 		-as "qwerty" -k
 
 fmt:
 	go fmt ./...

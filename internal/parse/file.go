@@ -1,4 +1,4 @@
-package file
+package parse
 
 import (
 	"bytes"
