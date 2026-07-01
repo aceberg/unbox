@@ -1,6 +1,6 @@
 package hysteria2
 
-import "github.com/aceberg/unbox/internal/tls"
+import "github.com/aceberg/unbox/pkg/tls"
 
 // Hysteria2 config
 type Hysteria2 struct {

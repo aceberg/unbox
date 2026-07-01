@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/aceberg/unbox/internal/tls"
+	"github.com/aceberg/unbox/pkg/tls"
 )
 
 // ParseHyst2 converts Hysteria2 URL string to struct

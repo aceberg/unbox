@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/aceberg/unbox/internal/tls"
+	"github.com/aceberg/unbox/pkg/tls"
 )
 
 // ToURL converts Hysteria2 struct to URL string

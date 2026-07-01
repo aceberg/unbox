@@ -21,6 +21,7 @@ type Transport struct {
 	PingTout string   `json:"ping_timeout,omitempty"`
 }
 
+// Get converts url.Values to Transport struct
 func Get(q url.Values) (Transport, bool) {
 	var res Transport
 

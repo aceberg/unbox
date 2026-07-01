@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	"github.com/aceberg/unbox/internal/check"
-	"github.com/aceberg/unbox/internal/hysteria2"
-	"github.com/aceberg/unbox/internal/trojan"
-	"github.com/aceberg/unbox/internal/vless"
+	"github.com/aceberg/unbox/pkg/hysteria2"
+	"github.com/aceberg/unbox/pkg/trojan"
+	"github.com/aceberg/unbox/pkg/vless"
 )
 
 // Parse file with links

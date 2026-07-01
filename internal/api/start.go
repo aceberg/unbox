@@ -26,6 +26,7 @@ type ProxyServer struct {
 	Delay int
 }
 
+// Start choses func to run
 func Start() {
 
 	if Config.KeepAlive {

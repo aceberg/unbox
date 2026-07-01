@@ -7,11 +7,12 @@
 </a>unbox</h1>
 <br/>
 
-Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that can do 4 things:
+Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that can do 5 things:
 1. Convert a file with `vless://`,`hysteria2://`,`trojan://` links to full sing-box config
-2. Remove unreachable nodes from sing-box config file (uses sing-box Clash API)
-3. Remove duplicate outbounds from sing-box config file
-4. Keep connection alive and switch to another proxy immediately if not (uses sing-box Clash API)
+2. Convert sing-box config outbounds to URLs
+3. Remove unreachable nodes from sing-box config file (uses sing-box Clash API)
+4. Remove duplicate outbounds from sing-box config file
+5. Keep connection alive. Switch to another proxy immediately if not. Optional - switch to a faster proxy (uses sing-box Clash API)
 
 
 ## Screenshot
@@ -69,6 +70,19 @@ docker run -it -v /your/local/path:/data \
 | -n | Rename tags. If used, will rename tags to `tag1`, `tag2`... | |
 | -o | Path to output file |  |
 | -t | Path to template sing-box config. Example [here](https://github.com/aceberg/unbox/blob/main/configs/sing-box.tmpl.json). There are only two variables available in template: `{{ .Unbox_tags }}` and `{{ .Unbox_outbounds }}` |  |
+</details>
+
+## Convert sing-box config outbounds to URLs
+<details><summary>Expand</summary>
+
+```sh
+unbox -i sing-box.json > URLs.txt
+```
+
+| Key | Description | Default |
+| --- | ----------- | ------- |
+| -i | Path to sing-box config file |  |
+
 </details>
 
 ## Remove unreachable nodes from sing-box config

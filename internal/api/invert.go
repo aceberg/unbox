@@ -5,15 +5,12 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/aceberg/unbox/internal/hysteria2"
-	"github.com/aceberg/unbox/internal/trojan"
-	"github.com/aceberg/unbox/internal/vless"
+	"github.com/aceberg/unbox/pkg/hysteria2"
+	"github.com/aceberg/unbox/pkg/trojan"
+	"github.com/aceberg/unbox/pkg/vless"
 )
 
 func invertConf() {
-	var hy hysteria2.Hysteria2
-	var tr trojan.Trojan
-	var vl vless.VLESS
 
 	config := getConfigFromFile(Config.InputPath)
 
@@ -39,6 +36,7 @@ func invertConf() {
 		}
 
 		if m["type"] == "hysteria2" {
+			var hy hysteria2.Hysteria2
 
 			if err := json.Unmarshal(b, &hy); err != nil {
 				continue
@@ -48,6 +46,7 @@ func invertConf() {
 		}
 
 		if m["type"] == "trojan" {
+			var tr trojan.Trojan
 
 			if err := json.Unmarshal(b, &tr); err != nil {
 				continue
@@ -57,9 +56,12 @@ func invertConf() {
 		}
 
 		if m["type"] == "vless" {
+			var vl vless.VLESS
+
 			if err := json.Unmarshal(b, &vl); err != nil {
 				continue
 			}
+
 			fmt.Println(vless.ToURL(vl))
 			continue
 		}

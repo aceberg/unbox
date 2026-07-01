@@ -1,8 +1,8 @@
 package trojan
 
 import (
-	"github.com/aceberg/unbox/internal/tls"
-	"github.com/aceberg/unbox/internal/transport"
+	"github.com/aceberg/unbox/pkg/tls"
+	"github.com/aceberg/unbox/pkg/transport"
 )
 
 // Trojan config

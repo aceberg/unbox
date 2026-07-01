@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"github.com/aceberg/unbox/internal/check"
-	"github.com/aceberg/unbox/internal/tls"
-	"github.com/aceberg/unbox/internal/transport"
+	"github.com/aceberg/unbox/pkg/tls"
+	"github.com/aceberg/unbox/pkg/transport"
 )
 
 // ToURL converts Trojan struct to URL string
@@ -19,7 +19,7 @@ func ToURL(h Trojan) string {
 		Fragment: h.Tag,
 	}
 
-	q := check.SumURL(tls.ToURL(h.TLS), transport.ToURL(h.Trans))
+	q := check.MergeURLValues(tls.ToURL(h.TLS), transport.ToURL(h.Trans))
 
 	u.RawQuery = q.Encode()
 

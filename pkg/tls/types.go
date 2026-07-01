@@ -24,6 +24,7 @@ type TLS struct {
 	Real     *Reality `json:"reality,omitempty"`
 }
 
+// Get converts url.Values to TLS struct
 func Get(q url.Values) (TLS, bool) {
 	var res TLS
 

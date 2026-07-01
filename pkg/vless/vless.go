@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"strconv"
 
-	"github.com/aceberg/unbox/internal/tls"
-	"github.com/aceberg/unbox/internal/transport"
+	"github.com/aceberg/unbox/pkg/tls"
+	"github.com/aceberg/unbox/pkg/transport"
 )
 
 // ParseVLESS converts VLESS URL string to struct
