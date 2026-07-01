@@ -22,7 +22,11 @@ drun:
 krun:
 	go run . \
 		-a "http://127.0.0.1:9091" \
- 		-as "qwerty" -k
+ 		-k
+
+irun:
+	go run . \
+ 		-i tmp/sing-box.json
 
 fmt:
 	go fmt ./...

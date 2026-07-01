@@ -15,9 +15,11 @@ func getProxyList() map[string]any {
 	if check.IfError(err) {
 		return proxies
 	}
-	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
+	check.IfError(err)
+
+	err = resp.Body.Close()
 	check.IfError(err)
 
 	var data map[string]any
@@ -63,6 +65,11 @@ func getAliveTags() []ProxyServer {
 func getAllTags() []string {
 	var allTags []string
 
+	allTags = getSelectorTags()
+	if len(allTags) > 0 {
+		return allTags
+	}
+
 	proxies := getProxyList()
 
 	for tag, p := range proxies {
@@ -79,6 +86,31 @@ func getAllTags() []string {
 	return allTags
 }
 
+func getSelectorTags() []string {
+	var selTags []string
+
+	proxies := getProxyList()
+
+	for _, p := range proxies {
+		proxy := p.(map[string]any)
+
+		if proxy["type"] == "Selector" {
+
+			all, ok := proxy["all"].([]any)
+			if ok {
+				for _, v := range all {
+					if s, ok := v.(string); ok {
+						selTags = append(selTags, s)
+					}
+				}
+			}
+			break
+		}
+	}
+
+	return selTags
+}
+
 func getSelectorName() string {
 	var selName string
 
@@ -87,8 +119,7 @@ func getSelectorName() string {
 	for _, p := range proxies {
 		proxy := p.(map[string]any)
 
-		ptype := proxy["type"]
-		if ptype == "Selector" {
+		if proxy["type"] == "Selector" {
 
 			selName = proxy["name"].(string)
 			break
@@ -106,8 +137,7 @@ func getCurrntProxy() string {
 	for _, p := range proxies {
 		proxy := p.(map[string]any)
 
-		ptype := proxy["type"]
-		if ptype == "Selector" {
+		if proxy["type"] == "Selector" {
 
 			cur = proxy["now"].(string)
 			break

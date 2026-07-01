@@ -9,8 +9,8 @@ import (
 	"github.com/aceberg/unbox/internal/check"
 )
 
-func getConfigFromFile() map[string]any {
-	f, err := os.ReadFile(Config.OutPath)
+func getConfigFromFile(path string) map[string]any {
+	f, err := os.ReadFile(path)
 	check.IfError(err)
 
 	var config map[string]any
@@ -22,7 +22,7 @@ func getConfigFromFile() map[string]any {
 
 func editConfig(saveTags []ProxyServer) {
 
-	config := getConfigFromFile()
+	config := getConfigFromFile(Config.OutPath)
 
 	outbounds, ok := config["outbounds"].([]any)
 	if !ok {

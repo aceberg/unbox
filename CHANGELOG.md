@@ -2,6 +2,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.3.1] - 2026-07-
+### Added
+- Convert sing-box config outbounds back to URLs
+- Get all proxy tags from `selector` first, scan only if empty
+
 ## [v0.2.5] - 2026-06-24
 ### Added
 - Refactor

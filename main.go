@@ -18,6 +18,7 @@ func main() {
 	secPtr := flag.String("as", "", "Clash API secret")
 	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
 	tmplPtr := flag.String("t", "", "Path to template sing-box config")
+	inpPtr := flag.String("i", "", "Path to input file")
 	outPtr := flag.String("o", "", "Path to output file")
 	urlPtr := flag.String("u", "", "URL to test proxies")
 
@@ -28,12 +29,13 @@ func main() {
 
 	flag.Parse()
 
-	if *apiPtr != "" || *dedupPtr {
+	if *apiPtr != "" || *dedupPtr || *inpPtr != "" {
 
 		api.Config = api.Conf{
-			ApiPath:     *apiPtr,
-			ApiSecret:   *secPtr,
+			APIPath:     *apiPtr,
+			APISecret:   *secPtr,
 			OutPath:     *outPtr,
+			InputPath:   *inpPtr,
 			Deduplicate: *dedupPtr,
 			KeepAlive:   *keepPtr,
 			TestURL:     *urlPtr,

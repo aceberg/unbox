@@ -1,27 +1,9 @@
 package vless
 
-import "github.com/aceberg/unbox/internal/transport"
-
-// UTLS for TLS struct
-type UTLS struct {
-	Enabled bool   `json:"enabled"`
-	Finger  string `json:"fingerprint"`
-}
-
-// Reality for TLS struct
-type Reality struct {
-	Enabled bool   `json:"enabled"`
-	Key     string `json:"public_key"`
-	ID      string `json:"short_id"`
-}
-
-// TLS for VLESS config struct
-type TLS struct {
-	Enabled bool     `json:"enabled"`
-	SNI     string   `json:"server_name"`
-	Utls    *UTLS    `json:"utls,omitempty"`
-	Real    *Reality `json:"reality,omitempty"`
-}
+import (
+	"github.com/aceberg/unbox/internal/tls"
+	"github.com/aceberg/unbox/internal/transport"
+)
 
 // VLESS config
 type VLESS struct {
@@ -31,7 +13,7 @@ type VLESS struct {
 	Port    int                  `json:"server_port"`
 	UUID    string               `json:"uuid"`
 	Flow    string               `json:"flow,omitempty"`
-	TLS     *TLS                 `json:"tls,omitempty"`
+	TLS     *tls.TLS             `json:"tls,omitempty"`
 	Trans   *transport.Transport `json:"transport,omitempty"`
-	PackEnc string               `json:"packet_encoding"`
+	PackEnc string               `json:"packet_encoding,omitempty"`
 }

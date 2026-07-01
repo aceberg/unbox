@@ -65,12 +65,13 @@ func testOneProxy(tag string, logPref string) bool {
 		return false
 	}
 
-	defer resp.Body.Close()
-
 	body, err := io.ReadAll(resp.Body)
 	if check.IfError(err) {
 		return false
 	}
+
+	err = resp.Body.Close()
+	check.IfError(err)
 
 	msg := string(body)
 

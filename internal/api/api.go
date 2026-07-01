@@ -8,13 +8,13 @@ import (
 )
 
 func apiRequest(method, path string, body io.Reader) (*http.Response, error) {
-	req, err := http.NewRequest(method, Config.ApiPath+path, body)
+	req, err := http.NewRequest(method, Config.APIPath+path, body)
 	if check.IfError(err) {
 		return nil, err
 	}
 
-	if Config.ApiSecret != "" {
-		req.Header.Set("Authorization", "Bearer "+Config.ApiSecret)
+	if Config.APISecret != "" {
+		req.Header.Set("Authorization", "Bearer "+Config.APISecret)
 	}
 
 	if body != nil {

@@ -4,9 +4,10 @@ import "log"
 
 // Conf contains command-line options for unbox
 type Conf struct {
-	ApiPath     string
-	ApiSecret   string
+	APIPath     string
+	APISecret   string
 	OutPath     string
+	InputPath   string
 	KeepAlive   bool
 	TestURL     string
 	DelayMain   uint
@@ -31,6 +32,8 @@ func Start() {
 		keepConnectionAlive()
 	} else if Config.Deduplicate {
 		deduplicate()
+	} else if Config.InputPath != "" {
+		invertConf()
 	} else {
 		testAllTags()
 		aliveTags := getAliveTags()

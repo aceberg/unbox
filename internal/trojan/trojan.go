@@ -1,13 +1,15 @@
 package trojan
 
 import (
+	"errors"
 	"net/url"
 	"strconv"
 
+	"github.com/aceberg/unbox/internal/tls"
 	"github.com/aceberg/unbox/internal/transport"
 )
 
-// ParseTrojan converts Trojan URL to struct
+// ParseTrojan converts Trojan URL string to struct
 func ParseTrojan(raw string) (*Trojan, error) {
 	u, err := url.Parse(raw)
 	if err != nil {
@@ -27,15 +29,20 @@ func ParseTrojan(raw string) (*Trojan, error) {
 		Server:   u.Hostname(),
 		Port:     portInt,
 		Password: u.User.Username(),
-		TLS: TLS{
-			Enabled: true,
-			SNI:     q.Get("sni"),
-		},
+	}
+
+	if res.Server == "" || res.Port == 0 || res.Password == "" {
+		return nil, errors.New("required field empty in " + raw)
 	}
 
 	tr, ok := transport.Get(q)
 	if ok {
 		res.Trans = &tr
+	}
+
+	t, ok := tls.Get(q)
+	if ok {
+		res.TLS = &t
 	}
 
 	return res, nil

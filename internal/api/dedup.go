@@ -9,7 +9,7 @@ import (
 
 func deduplicate() {
 
-	config := getConfigFromFile()
+	config := getConfigFromFile(Config.OutPath)
 
 	outbounds, ok := config["outbounds"].([]any)
 	if !ok {
