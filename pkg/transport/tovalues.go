@@ -2,8 +2,8 @@ package transport
 
 import "net/url"
 
-// ToURL converts Transport struct to url.Values
-func ToURL(tr *Transport) url.Values {
+// ToValues converts Transport struct to url.Values
+func ToValues(tr *Transport) url.Values {
 	q := url.Values{}
 
 	if tr == nil {

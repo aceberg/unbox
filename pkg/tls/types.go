@@ -43,6 +43,10 @@ func Get(q url.Values) (TLS, bool) {
 			Key:     q.Get("pbk"),
 			ID:      q.Get("sid"),
 		}
+		res.Utls = &UTLS{
+			Enabled: true,
+			Finger:  "randomized",
+		}
 	}
 
 	if q.Get("fp") != "" {

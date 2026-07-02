@@ -19,7 +19,7 @@ func ToURL(h Trojan) string {
 		Fragment: h.Tag,
 	}
 
-	q := check.MergeURLValues(tls.ToURL(h.TLS), transport.ToURL(h.Trans))
+	q := check.MergeURLValues(tls.ToValues(h.TLS), transport.ToValues(h.Trans))
 
 	u.RawQuery = q.Encode()
 

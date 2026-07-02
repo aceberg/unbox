@@ -19,7 +19,7 @@ func ToURL(h VLESS) string {
 		Fragment: h.Tag,
 	}
 
-	q := check.MergeURLValues(tls.ToURL(h.TLS), transport.ToURL(h.Trans))
+	q := check.MergeURLValues(tls.ToValues(h.TLS), transport.ToValues(h.Trans))
 
 	if h.Flow != "" {
 		q.Set("flow", h.Flow)

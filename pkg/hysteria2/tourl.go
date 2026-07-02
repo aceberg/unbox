@@ -17,7 +17,7 @@ func ToURL(h Hysteria2) string {
 		Fragment: h.Tag,
 	}
 
-	q := tls.ToURL(h.TLS)
+	q := tls.ToValues(h.TLS)
 
 	u.RawQuery = q.Encode()
 

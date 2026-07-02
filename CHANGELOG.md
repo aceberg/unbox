@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v0.3.2] - 2026-07-02
+### Added
+- Bug fix and refactor
+
 ## [v0.3.1] - 2026-07-01
 ### Added
 - Convert sing-box config outbounds to URLs
