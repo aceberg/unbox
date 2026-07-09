@@ -9,8 +9,8 @@ import (
 	"github.com/aceberg/unbox/pkg/transport"
 )
 
-// ParseVLESS converts VLESS URL string to struct
-func ParseVLESS(raw string) (*VLESS, error) {
+// Parse converts VLESS URL string to struct
+func Parse(raw string) (*VLESS, error) {
 	u, err := url.Parse(raw)
 	if err != nil {
 		return nil, err

@@ -33,7 +33,7 @@ func parseFile() {
 
 		// keep only vless links (case-insensitive)
 		if strings.HasPrefix(strings.ToLower(line), "vless://") {
-			v, err := vless.ParseVLESS(line)
+			v, err := vless.Parse(line)
 			if !check.IfError(err) {
 				v.Tag = renameTag(v.Tag)
 				addResult(v, v.Tag)
@@ -42,7 +42,7 @@ func parseFile() {
 
 		// keep only Hysteria2 links (case-insensitive)
 		if strings.HasPrefix(strings.ToLower(line), "hysteria2://") {
-			h, err := hysteria2.ParseHyst2(line)
+			h, err := hysteria2.Parse(line)
 			if !check.IfError(err) {
 				h.Tag = renameTag(h.Tag)
 				addResult(h, h.Tag)
@@ -51,7 +51,7 @@ func parseFile() {
 
 		// keep only Trojan links (case-insensitive)
 		if strings.HasPrefix(strings.ToLower(line), "trojan://") {
-			t, err := trojan.ParseTrojan(line)
+			t, err := trojan.Parse(line)
 			if !check.IfError(err) {
 				t.Tag = renameTag(t.Tag)
 				addResult(t, t.Tag)

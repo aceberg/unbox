@@ -9,8 +9,8 @@ import (
 	"github.com/aceberg/unbox/pkg/transport"
 )
 
-// ParseTrojan converts Trojan URL string to struct
-func ParseTrojan(raw string) (*Trojan, error) {
+// Parse converts Trojan URL string to struct
+func Parse(raw string) (*Trojan, error) {
 	u, err := url.Parse(raw)
 	if err != nil {
 		return nil, err

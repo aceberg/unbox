@@ -8,8 +8,8 @@ import (
 	"github.com/aceberg/unbox/pkg/tls"
 )
 
-// ParseHyst2 converts Hysteria2 URL string to struct
-func ParseHyst2(raw string) (*Hysteria2, error) {
+// Parse converts Hysteria2 URL string to struct
+func Parse(raw string) (*Hysteria2, error) {
 	u, err := url.Parse(raw)
 	if err != nil {
 		return nil, err
