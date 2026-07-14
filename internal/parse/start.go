@@ -4,8 +4,8 @@ import (
 	"fmt"
 )
 
-// Conf contains command-line options for unbox
-type Conf struct {
+// SettingsType contains unbox settings for parse
+type SettingsType struct {
 	FilePath     string
 	OutPath      string
 	TemplatePath string
@@ -13,8 +13,8 @@ type Conf struct {
 	ValidateJSON bool
 }
 
-// Config - app config
-var Config Conf
+// Settings contains unbox settings for parse
+var Settings SettingsType
 
 var (
 	result []string
@@ -33,11 +33,11 @@ func Start() {
 
 	resStr := insertToTemplate()
 
-	if Config.ValidateJSON {
+	if Settings.ValidateJSON {
 		resStr = valIndent(resStr)
 	}
 
-	if Config.OutPath != "" {
+	if Settings.OutPath != "" {
 		outToFile(resStr)
 	} else {
 		fmt.Println(resStr)

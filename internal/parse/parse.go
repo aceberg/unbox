@@ -65,7 +65,7 @@ func parseFile() {
 
 func renameTag(in string) (out string) {
 
-	if Config.RenameTags {
+	if Settings.RenameTags {
 		out = fmt.Sprint("tag", i)
 	} else {
 		out = in + fmt.Sprint(" ", i)

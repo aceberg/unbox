@@ -94,7 +94,7 @@ func main() {
 	case "parse":
 		parseCmd := flag.NewFlagSet("unbox parse", flag.ExitOnError)
 
-		jsonPtr := parseCmd.Bool("j", false, "Validate and Indent json output")
+		jsonPtr := parseCmd.Bool("j", false, "Validate and Indent JSON output")
 		namePtr := parseCmd.Bool("n", false, "Rename tags")
 
 		filePtr := parseCmd.String("f", "VLESS.txt", "Path to file with URLs")
@@ -104,7 +104,7 @@ func main() {
 		err := parseCmd.Parse(os.Args[2:])
 		check.IfError(err)
 
-		parse.Config = parse.Conf{
+		parse.Settings = parse.SettingsType{
 			FilePath:     *filePtr,
 			TemplatePath: *tmplPtr,
 			OutPath:      *outPtr,

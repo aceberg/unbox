@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.1] - 2026-07-15
+### Added
+- Commands
+- Examples
+- Small fixes
+
 ## [v0.3.2] - 2026-07-02
 ### Added
 - Bug fix and refactor

@@ -1,6 +1,10 @@
 package tls
 
-import "net/url"
+import (
+	"net/url"
+	"slices"
+	"strings"
+)
 
 // UTLS for TLS struct
 type UTLS struct {
@@ -49,11 +53,16 @@ func Get(q url.Values) (TLS, bool) {
 		}
 	}
 
-	if q.Get("fp") != "" {
+	fp := q.Get("fp")
+	if fp != "" {
+		fp = strings.ToLower(fp)
+		if !slices.Contains([]string{"chrome", "firefox", "edge", "safari", "360", "qq", "ios", "android", "random", "randomized"}, fp) {
+			fp = "randomized"
+		}
 		res.Enabled = true
 		res.Utls = &UTLS{
 			Enabled: true,
-			Finger:  q.Get("fp"),
+			Finger:  fp,
 		}
 	}
 

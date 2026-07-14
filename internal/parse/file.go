@@ -13,7 +13,7 @@ import (
 
 func getLinksFromFile() (string, bool) {
 
-	f, err := os.ReadFile(Config.FilePath)
+	f, err := os.ReadFile(Settings.FilePath)
 	if check.IfError(err) {
 		log.Println("ERROR: Input file error. Exiting...")
 		return "", false
@@ -26,11 +26,11 @@ func insertToTemplate() string {
 
 	res := strings.Join(result, ",\n")
 
-	if Config.TemplatePath == "" {
+	if Settings.TemplatePath == "" {
 		return res
 	}
 
-	t, err := template.ParseFiles(Config.TemplatePath)
+	t, err := template.ParseFiles(Settings.TemplatePath)
 	if check.IfError(err) {
 		log.Println("ERROR: Template file error")
 		return res
@@ -51,7 +51,7 @@ func insertToTemplate() string {
 
 func outToFile(out string) {
 
-	err := os.WriteFile(Config.OutPath, []byte(out), 0644)
+	err := os.WriteFile(Settings.OutPath, []byte(out), 0644)
 	if check.IfError(err) {
 		log.Println("ERROR: Output file error")
 	}

@@ -7,12 +7,16 @@
 </a>unbox</h1>
 <br/>
 
-Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that can do 5 things:
-1. Convert a file with `vless://`,`hysteria2://`,`trojan://` links to full sing-box config
-2. Convert sing-box config outbounds to URLs
-3. Remove unreachable nodes from sing-box config file (uses sing-box Clash API)
-4. Remove duplicate outbounds from sing-box config file
-5. Keep connection alive. Switch to another proxy immediately if not. Optional - switch to a faster proxy (uses sing-box Clash API)
+Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that has commands:   
+1. `examples`: Show usage examples
+2. `conf`: Works with sing-box config file to
+    - [Deduplicate](https://github.com/aceberg/unbox#deduplicate) (compares all fields but `tag`)
+    - [Convert sing-box config outbounds to URLs](https://github.com/aceberg/unbox#convert-sing-box-config-outbounds-to-urls)
+    - [Remove unreachable nodes from sing-box config file](https://github.com/aceberg/unbox#remove-unreachable-nodes-from-sing-box-config)
+3. `keep`: [Keep connection alive, auto switch proxy](https://github.com/aceberg/unbox#keep-connection-alive-and-switch-if-not)
+4. `parse`: [Convert file with URLs to sing-box config](https://github.com/aceberg/unbox#convert-file-with-urls-to-sing-box-config)
+
+Supported URLs: `vless://`,`hysteria2://`,`trojan://`
 
 
 ## Screenshot
@@ -27,13 +31,11 @@ Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that ca
 <details><summary>Expand</summary>
 
 ### Docker
-There are DockerHub and GitHub images:
+Example `keep` command with sing-box Clash API:
 ```sh
-docker pull aceberg/unbox
+docker run aceberg/unbox keep -a "http://192.168.0.11:9090"
 ```
-```sh
-docker pull ghcr.io/aceberg/unbox
-```
+Or use `ghcr.io/aceberg/unbox`
 
 ### Binary
 All available binaries are listed in the [latest](https://github.com/aceberg/unbox/releases/latest) release.    
@@ -43,40 +45,25 @@ For `amd64` there is an `apt` [repo](https://github.com/aceberg/ppa).
 For `arm64` there are `android` and `termux.deb` [files](https://github.com/aceberg/unbox/releases/latest).
 </details>
 
-## Convert file with URLs to sing-box config
+## Deduplicate
 <details><summary>Expand</summary>
 
-Here `VLESS.txt` is a file with `vless://`,`hysteria2://`,`trojan://` links. Unbox will ignore anything else in the file, including other protocols and comments.
 ```sh
-unbox -f VLESS.txt
-```
-In this example `sing-box.tmpl.json` is a [template](https://github.com/aceberg/unbox/blob/main/configs/sing-box.tmpl.json) sing-box config and `sing-box.json` is where unbox will put generated config.
-```sh
-unbox -f VLESS.txt -t sing-box.tmpl.json -o sing-box.json -j
-```
-Docker
-```sh
-docker run -it -v /your/local/path:/data \
-    aceberg/unbox \
-    -f /data/VLESS.txt \
-    -t /data/sing-box.tmpl.json \
-    -o /data/sing-box.json
+unbox conf -d -o sing-box.json
 ```
 
 | Key | Description | Default |
 | --- | ----------- | ------- |
-| -f | Path to file with links | VLESS.txt |
-| -j | Validate and Indent JSON output |  |
-| -n | Rename tags. If used, will rename tags to `tag1`, `tag2`... | |
-| -o | Path to output file |  |
-| -t | Path to template sing-box config. Example [here](https://github.com/aceberg/unbox/blob/main/configs/sing-box.tmpl.json). There are only two variables available in template: `{{ .Unbox_tags }}` and `{{ .Unbox_outbounds }}` |  |
+| -d | Deduplicate |  |
+| -o | Path to sing-box config file |  |
+
 </details>
 
 ## Convert sing-box config outbounds to URLs
 <details><summary>Expand</summary>
 
 ```sh
-unbox -i sing-box.json > URLs.txt
+unbox conf -i sing-box.json > URLs.txt
 ```
 
 | Key | Description | Default |
@@ -89,51 +76,57 @@ unbox -i sing-box.json > URLs.txt
 <details><summary>Expand</summary>
 
 ```sh
-unbox -a "http://127.0.0.1:9090" -o sing-box.json
+unbox conf -a "http://127.0.0.1:9090" -o sing-box.json
 ```
 
 | Key | Description | Default |
 | --- | ----------- | ------- |
-| -a | URL to sing-box Clash API |  |
+| -a | URL of sing-box Clash API |  |
 | -as | Clash API secret |  |
 | -o | Path to sing-box config file |  |
-
-</details>
-
-## Remove duplicate outbounds from sing-box config
-<details><summary>Expand</summary>
-
-```sh
-unbox -d -o sing-box.json
-```
-
-| Key | Description | Default |
-| --- | ----------- | ------- |
-| -d | Deduplicate |  |
-| -o | Path to sing-box config file |  |
+| -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
 </details>
 
 ## Keep connection alive and switch if not
 <details><summary>Expand</summary>
 
-Use the `-k` flag to run `unbox` in keepalive mode
 ```sh
-unbox -a "http://127.0.0.1:9090" -k
+unbox keep -a "http://127.0.0.1:9090"
 ```
 
 | Key | Description | Default |
 | --- | ----------- | ------- |
-| -a | URL to sing-box Clash API |  |
+| -a | URL of sing-box Clash API |  |
 | -as | Clash API secret |  |
 | -da | Delay between checks of all proxy servers (seconds). Use 0 to disable | 300 |
 | -db | Delay between checks of 3-4 backup servers (seconds). Use 0 to disable | 30 |
 | -dm | Delay between checks of the main server (seconds). Use 0 to disable | 5 |
 | -ds | Delay between auto switch to a faster proxy attempts (seconds). Use 0 to disable | 300 |
-| -k | Keepalive mode | |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
 
+</details>
+
+## Convert file with URLs to sing-box config
+<details><summary>Expand</summary>
+
+Here `VLESS.txt` is a file with `vless://`,`hysteria2://`,`trojan://` links. Unbox will ignore anything else in the file, including other protocols and comments.
+```sh
+unbox parse -f VLESS.txt
+```
+In this example `tmpl.json` is a [template](https://github.com/aceberg/unbox/blob/main/configs/sing-box.tmpl.json) sing-box config and `sing-box.json` is where unbox will put generated config.
+```sh
+unbox parse -f VLESS.txt -t tmpl.json -o sing-box.json -j
+```
+
+| Key | Description | Default |
+| --- | ----------- | ------- |
+| -f | Path to file with URLs | VLESS.txt |
+| -j | Validate and Indent JSON output |  |
+| -n | Rename tags. If used, will rename tags to `tag1`, `tag2`... | |
+| -o | Path to output sing-box config file |  |
+| -t | Path to template sing-box config. Example [here](https://github.com/aceberg/unbox/blob/main/configs/sing-box.tmpl.json). There are only two variables available in template: `{{ .Unbox_tags }}` and `{{ .Unbox_outbounds }}` |  |
 </details>
 
 ## Thanks
