@@ -5,27 +5,26 @@ mod:
 	go mod tidy
 
 run:
-	go run . \
+	go run . parse \
 		-f tmp/VLESS.txt \
  		-t tmp/tmpl.json \
  		-o tmp/sing-box.json -j
 
 arun:
-	go run . \
+	go run . conf \
 		-a "http://127.0.0.1:9091" \
  		-o tmp/sing-box.json
 
 drun:
-	go run . \
+	go run . conf \
  		-o tmp/sing-box.json -d
 
 krun:
-	go run . \
-		-a "http://127.0.0.1:9091" \
- 		-k
+	go run . keep \
+		-a "http://127.0.0.1:9091"
 
 irun:
-	go run . \
+	go run . conf \
  		-i tmp/sing-box.json
 
 fmt:

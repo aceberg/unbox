@@ -2,42 +2,86 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"os"
 	_ "time/tzdata"
 
-	"github.com/aceberg/unbox/internal/api"
+	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/conf"
+	"github.com/aceberg/unbox/internal/keep"
 	"github.com/aceberg/unbox/internal/parse"
+	"github.com/aceberg/unbox/internal/share"
 )
 
+func printUsage() {
+	fmt.Println("Usage: unbox <command>")
+
+	fmt.Println("\nCommands:" +
+		"\n  examples  Show usage examples" +
+		"\n  conf      Works with sing-box config file" +
+		"\n  keep      Keep connection alive, auto switch proxy" +
+		"\n  parse     Parse a file with URLs to sing-box config")
+}
+
 func main() {
-	dedupPtr := flag.Bool("d", false, "Deduplicate")
-	jsonPtr := flag.Bool("j", false, "Validate and Indent json output")
-	namePtr := flag.Bool("n", false, "Rename tags")
-	keepPtr := flag.Bool("k", false, "Keep alive")
+	if len(os.Args) < 2 {
+		printUsage()
 
-	apiPtr := flag.String("a", "", "Path to sing-box Clash API")
-	secPtr := flag.String("as", "", "Clash API secret")
-	filePtr := flag.String("f", "VLESS.txt", "Path to file with links")
-	tmplPtr := flag.String("t", "", "Path to template sing-box config")
-	inpPtr := flag.String("i", "", "Path to input file")
-	outPtr := flag.String("o", "", "Path to output file")
-	urlPtr := flag.String("u", "", "URL to test proxies")
+		return
+	}
 
-	allPtr := flag.Uint("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
-	bkpPtr := flag.Uint("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
-	mainPtr := flag.Uint("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
-	switchPtr := flag.Uint("ds", 5*60, "Delay between auto switch to a faster proxy attempts (s). Use 0 to disable")
+	switch os.Args[1] {
+	case "examples":
+		showExamples()
+	case "conf":
+		confCmd := flag.NewFlagSet("unbox conf", flag.ExitOnError)
 
-	flag.Parse()
+		dedupPtr := confCmd.Bool("d", false, "Deduplicate")
 
-	if *apiPtr != "" || *dedupPtr || *inpPtr != "" {
+		apiPtr := confCmd.String("a", "", "URL of sing-box Clash API")
+		secPtr := confCmd.String("as", "", "Clash API secret")
+		inpPtr := confCmd.String("i", "", "Path to sing-box config file to get URLs from")
+		outPtr := confCmd.String("o", "", "Path to output sing-box config file")
+		urlPtr := confCmd.String("u", "", "URL to test proxies")
 
-		api.Config = api.Conf{
+		err := confCmd.Parse(os.Args[2:])
+		check.IfError(err)
+
+		share.Settings = share.SettingsType{
 			APIPath:     *apiPtr,
 			APISecret:   *secPtr,
+			TestURL:     *urlPtr,
 			OutPath:     *outPtr,
 			InputPath:   *inpPtr,
 			Deduplicate: *dedupPtr,
-			KeepAlive:   *keepPtr,
+		}
+
+		if *dedupPtr {
+			conf.Deduplicate()
+		} else if *inpPtr != "" {
+			conf.Invert()
+		} else {
+			conf.RemoveUnreachable()
+		}
+
+	case "keep":
+		keepCmd := flag.NewFlagSet("unbox keep", flag.ExitOnError)
+
+		apiPtr := keepCmd.String("a", "", "URL of sing-box Clash API")
+		secPtr := keepCmd.String("as", "", "Clash API secret")
+		urlPtr := keepCmd.String("u", "", "URL to test proxies")
+
+		allPtr := keepCmd.Uint("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
+		bkpPtr := keepCmd.Uint("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
+		mainPtr := keepCmd.Uint("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
+		switchPtr := keepCmd.Uint("ds", 5*60, "Delay between auto switch to a faster proxy attempts (s). Use 0 to disable")
+
+		err := keepCmd.Parse(os.Args[2:])
+		check.IfError(err)
+
+		share.Settings = share.SettingsType{
+			APIPath:     *apiPtr,
+			APISecret:   *secPtr,
 			TestURL:     *urlPtr,
 			DelayMain:   *mainPtr,
 			DelayBkp:    *bkpPtr,
@@ -45,17 +89,53 @@ func main() {
 			DelaySwitch: *switchPtr,
 		}
 
-		api.Start()
-		return
-	}
+		keep.Alive()
 
-	parse.Config = parse.Conf{
-		FilePath:     *filePtr,
-		TemplatePath: *tmplPtr,
-		OutPath:      *outPtr,
-		RenameTags:   *namePtr,
-		ValidateJSON: *jsonPtr,
-	}
+	case "parse":
+		parseCmd := flag.NewFlagSet("unbox parse", flag.ExitOnError)
 
-	parse.Start()
+		jsonPtr := parseCmd.Bool("j", false, "Validate and Indent json output")
+		namePtr := parseCmd.Bool("n", false, "Rename tags")
+
+		filePtr := parseCmd.String("f", "VLESS.txt", "Path to file with URLs")
+		outPtr := parseCmd.String("o", "", "Path to output sing-box config file")
+		tmplPtr := parseCmd.String("t", "", "Path to template sing-box config")
+
+		err := parseCmd.Parse(os.Args[2:])
+		check.IfError(err)
+
+		parse.Config = parse.Conf{
+			FilePath:     *filePtr,
+			TemplatePath: *tmplPtr,
+			OutPath:      *outPtr,
+			RenameTags:   *namePtr,
+			ValidateJSON: *jsonPtr,
+		}
+
+		parse.Start()
+
+	default:
+		printUsage()
+	}
+}
+
+func showExamples() {
+
+	fmt.Println("conf")
+	fmt.Println("  Remove unreachable nodes from sing-box config:" +
+		"\n    unbox conf -a 'http://127.0.0.1:9090' -o sing-box.json")
+	fmt.Println("  Remove duplicate outbounds from sing-box config:" +
+		"\n    unbox conf -d -o sing-box.json")
+	fmt.Println("  Convert sing-box config outbounds to URLs:" +
+		"\n    unbox conf -i sing-box.json > URLs.txt")
+
+	fmt.Println("\nkeep")
+	fmt.Println("  Keep proxy alive with default intervals between checks:" +
+		"\n    unbox keep -a 'http://127.0.0.1:9090'")
+
+	fmt.Println("\nparse")
+	fmt.Println("  Parse VLESS.txt file with URLs and print result to stdout:" +
+		"\n    unbox parse")
+	fmt.Println("  Parse myfile.txt, insert result in template tmpl.json, output to sing-box.json and check/format JSON (-j):" +
+		"\n    unbox parse -f myfile.txt -t tmpl.json -o sing-box.json -j")
 }

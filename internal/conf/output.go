@@ -1,4 +1,4 @@
-package api
+package conf
 
 import (
 	"encoding/json"
@@ -6,7 +6,9 @@ import (
 	"os"
 	"slices"
 
+	"github.com/aceberg/unbox/internal/api"
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/share"
 )
 
 func getConfigFromFile(path string) map[string]any {
@@ -20,13 +22,13 @@ func getConfigFromFile(path string) map[string]any {
 	return config
 }
 
-func editConfig(saveTags []ProxyServer) {
+func editConfig(saveTags []api.ProxyServer) {
 
-	config := getConfigFromFile(Config.OutPath)
+	config := getConfigFromFile(share.Settings.OutPath)
 
 	outbounds, ok := config["outbounds"].([]any)
 	if !ok {
-		log.Println("No outbounds found in", Config.OutPath)
+		log.Println("No outbounds found in", share.Settings.OutPath)
 		return
 	}
 
@@ -46,7 +48,7 @@ func editConfig(saveTags []ProxyServer) {
 
 		} else {
 			tag := ob["tag"].(string)
-			isAlive := slices.ContainsFunc(saveTags, func(t ProxyServer) bool {
+			isAlive := slices.ContainsFunc(saveTags, func(t api.ProxyServer) bool {
 				return t.Tag == tag
 			})
 			if isAlive {
@@ -60,7 +62,7 @@ func editConfig(saveTags []ProxyServer) {
 	updated, err := json.MarshalIndent(config, "", "  ")
 	check.IfError(err)
 
-	err = os.WriteFile(Config.OutPath, updated, 0644)
+	err = os.WriteFile(share.Settings.OutPath, updated, 0644)
 	if check.IfError(err) {
 		log.Println("ERROR: Output file error")
 	}

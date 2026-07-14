@@ -1,24 +1,27 @@
-package api
+package conf
 
 import (
 	"encoding/json"
 	"log"
 
+	"github.com/aceberg/unbox/internal/api"
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/share"
 )
 
-func deduplicate() {
+// Deduplicate removes duplicate outbounds from sing-box config
+func Deduplicate() {
 
-	config := getConfigFromFile(Config.OutPath)
+	config := getConfigFromFile(share.Settings.OutPath)
 
 	outbounds, ok := config["outbounds"].([]any)
 	if !ok {
-		log.Println("No outbounds found in", Config.OutPath)
+		log.Println("No outbounds found in", share.Settings.OutPath)
 		return
 	}
 
 	seen := make(map[string]struct{})
-	var unique []ProxyServer
+	var unique []api.ProxyServer
 
 	for _, ob := range outbounds {
 		m, ok := ob.(map[string]any)
@@ -49,7 +52,7 @@ func deduplicate() {
 		}
 
 		seen[key] = struct{}{}
-		unique = append(unique, ProxyServer{Tag: m["tag"].(string)})
+		unique = append(unique, api.ProxyServer{Tag: m["tag"].(string)})
 	}
 
 	editConfig(unique)

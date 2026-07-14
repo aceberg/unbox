@@ -1,22 +1,24 @@
-package api
+package conf
 
 import (
 	"encoding/json"
 	"fmt"
 	"log"
 
+	"github.com/aceberg/unbox/internal/share"
 	"github.com/aceberg/unbox/pkg/hysteria2"
 	"github.com/aceberg/unbox/pkg/trojan"
 	"github.com/aceberg/unbox/pkg/vless"
 )
 
-func invertConf() {
+// Invert converts sing-box config outbounds to URLs
+func Invert() {
 
-	config := getConfigFromFile(Config.InputPath)
+	config := getConfigFromFile(share.Settings.InputPath)
 
 	outbounds, ok := config["outbounds"].([]any)
 	if !ok {
-		log.Println("No outbounds found in", Config.InputPath)
+		log.Println("No outbounds found in", share.Settings.InputPath)
 		return
 	}
 

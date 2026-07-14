@@ -1,18 +1,19 @@
-package api
+package keep
 
 import (
-	"io"
 	"log"
 	"strings"
 	"time"
 
+	"github.com/aceberg/unbox/internal/api"
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/share"
 )
 
 var (
 	currentProxy string
 	alive        bool
-	aliveTags    []ProxyServer
+	aliveTags    []api.ProxyServer
 )
 
 const (
@@ -23,18 +24,19 @@ const (
 	colorReset = "\033[0m"  // reset
 )
 
-func keepConnectionAlive() {
+// Alive - keep alive and auto switch
+func Alive() {
 
-	if Config.DelayMain > 0 {
+	if share.Settings.DelayMain > 0 {
 		go testCurrentProxy()
 	}
-	if Config.DelayBkp > 0 {
+	if share.Settings.DelayBkp > 0 {
 		go updateAliveTags()
 	}
-	if Config.DelayAll > 0 {
+	if share.Settings.DelayAll > 0 {
 		go testAllTagsRoutine()
 	}
-	if Config.DelaySwitch > 0 {
+	if share.Settings.DelaySwitch > 0 {
 		go checkSwitch()
 	}
 
@@ -53,36 +55,9 @@ func keepConnectionAlive() {
 	}
 }
 
-func testOneProxy(tag string, logPref string) bool {
-
-	url := "https://www.gstatic.com/generate_204"
-	if Config.TestURL != "" {
-		url = Config.TestURL
-	}
-
-	resp, err := apiRequest("GET", "/proxies/"+tag+"/delay?timeout=3000&url="+url, nil)
-	if check.IfError(err) {
-		return false
-	}
-
-	body, err := io.ReadAll(resp.Body)
-	if check.IfError(err) {
-		return false
-	}
-
-	err = resp.Body.Close()
-	check.IfError(err)
-
-	msg := string(body)
-
-	log.Print("INFO "+logPref+" \""+tag+"\":", msg)
-
-	return !strings.Contains(msg, "message")
-}
-
 func switchProxy(tag string) {
 
-	selName := getSelectorName()
+	selName := api.GetSelectorName()
 	if selName == "" {
 		log.Println(colorErr + "ERROR" + colorMain + "[MAIN] " + colorReset + "Can't get Selector tag name to select new proxy")
 		return
@@ -93,13 +68,13 @@ func switchProxy(tag string) {
 
 	body := strings.NewReader(`{"name":"` + tag + `"}`)
 
-	_, err := apiRequest("PUT", "/proxies/"+selName, body)
+	_, err := api.Request("PUT", "/proxies/"+selName, body)
 	check.IfError(err)
 }
 
 func chooseTag() (string, bool) {
 
-	aliveTags = getAliveTags()
+	aliveTags = api.GetAliveServers()
 
 	for _, tag := range aliveTags {
 		if tag.Tag != currentProxy {

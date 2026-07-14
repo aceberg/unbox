@@ -11,7 +11,7 @@ import (
 func getProxyList() map[string]any {
 	var proxies map[string]any
 
-	resp, err := apiRequest("GET", "/proxies", nil)
+	resp, err := Request("GET", "/proxies", nil)
 	if check.IfError(err) {
 		return proxies
 	}
@@ -31,7 +31,8 @@ func getProxyList() map[string]any {
 	return proxies
 }
 
-func getAliveTags() []ProxyServer {
+// GetAliveServers returns an array of type ProxyServer{Tag, Delay}
+func GetAliveServers() []ProxyServer {
 	var aliveTags []ProxyServer
 
 	proxies := getProxyList()
@@ -62,7 +63,8 @@ func getAliveTags() []ProxyServer {
 	return aliveTags
 }
 
-func getAllTags() []string {
+// GetAllTags returns an array of Tags
+func GetAllTags() []string {
 	var allTags []string
 
 	allTags = getSelectorTags()
@@ -111,7 +113,8 @@ func getSelectorTags() []string {
 	return selTags
 }
 
-func getSelectorName() string {
+// GetSelectorName returns first Selector name
+func GetSelectorName() string {
 	var selName string
 
 	proxies := getProxyList()
@@ -129,7 +132,8 @@ func getSelectorName() string {
 	return selName
 }
 
-func getCurrntProxy() string {
+// GetCurrntProxy returns current proxy in Selector
+func GetCurrntProxy() string {
 	var cur string
 
 	proxies := getProxyList()

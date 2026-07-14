@@ -1,23 +1,26 @@
-package api
+package keep
 
 import (
 	"log"
 	"strconv"
 	"time"
+
+	"github.com/aceberg/unbox/internal/api"
+	"github.com/aceberg/unbox/internal/share"
 )
 
 func testCurrentProxy() {
 
 	for {
-		currentProxy = getCurrntProxy()
+		currentProxy = api.GetCurrntProxy()
 		if currentProxy != "" {
-			ok := testOneProxy(currentProxy, colorMain+"[MAIN]"+colorReset)
+			ok := api.CheckOneProxy(currentProxy, colorMain+"[MAIN]"+colorReset)
 			if !ok {
 				alive = false
 			}
 		}
 
-		time.Sleep(time.Duration(Config.DelayMain) * time.Second)
+		time.Sleep(time.Duration(share.Settings.DelayMain) * time.Second)
 	}
 }
 
@@ -34,12 +37,12 @@ func updateAliveTags() {
 				break
 			}
 
-			testOneProxy(tag.Tag, colorBkp+"[BKP] "+colorReset)
+			api.CheckOneProxy(tag.Tag, colorBkp+"[BKP] "+colorReset)
 		}
 
-		aliveTags = getAliveTags()
+		aliveTags = api.GetAliveServers()
 
-		time.Sleep(time.Duration(Config.DelayBkp) * time.Second)
+		time.Sleep(time.Duration(share.Settings.DelayBkp) * time.Second)
 	}
 }
 
@@ -47,15 +50,15 @@ func testAllTagsRoutine() {
 	for {
 		testAllTags()
 
-		aliveTags = getAliveTags()
+		aliveTags = api.GetAliveServers()
 
-		time.Sleep(time.Duration(Config.DelayAll) * time.Second)
+		time.Sleep(time.Duration(share.Settings.DelayAll) * time.Second)
 	}
 }
 
 func testAllTags() {
 
-	tags := getAllTags()
+	tags := api.GetAllTags()
 	l := len(tags)
 
 	for i, tag := range tags {
@@ -64,13 +67,13 @@ func testAllTags() {
 			continue
 		}
 
-		testOneProxy(tag, "["+strconv.Itoa(i+1)+"-"+strconv.Itoa(l)+"]")
+		api.CheckOneProxy(tag, "["+strconv.Itoa(i+1)+"-"+strconv.Itoa(l)+"]")
 	}
 }
 
 func checkSwitch() {
 	var curDelay int
-	var betterProxy ProxyServer
+	var betterProxy api.ProxyServer
 	var found bool
 
 	for {
@@ -91,6 +94,6 @@ func checkSwitch() {
 			switchProxy(betterProxy.Tag)
 		}
 
-		time.Sleep(time.Duration(Config.DelaySwitch) * time.Second)
+		time.Sleep(time.Duration(share.Settings.DelaySwitch) * time.Second)
 	}
 }
