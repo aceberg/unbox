@@ -15,17 +15,18 @@ type UTLS struct {
 // Reality for TLS struct
 type Reality struct {
 	Enabled bool   `json:"enabled"`
-	Key     string `json:"public_key,omitempty"`
+	Key     string `json:"public_key"`
 	ID      string `json:"short_id,omitempty"`
 }
 
 // TLS config struct
 type TLS struct {
-	Enabled  bool     `json:"enabled"`
-	SNI      string   `json:"server_name,omitempty"`
-	Insecure bool     `json:"insecure,omitempty"`
-	Utls     *UTLS    `json:"utls,omitempty"`
-	Real     *Reality `json:"reality,omitempty"`
+	Enabled    bool     `json:"enabled"`
+	SNI        string   `json:"server_name,omitempty"`
+	DisableSNI bool     `json:"disable_sni,omitempty"`
+	Insecure   bool     `json:"insecure,omitempty"`
+	Utls       *UTLS    `json:"utls,omitempty"`
+	Real       *Reality `json:"reality,omitempty"`
 }
 
 // Get converts url.Values to TLS struct
@@ -40,7 +41,7 @@ func Get(q url.Values) (TLS, bool) {
 		}
 	}
 
-	if q.Get("security") == "reality" {
+	if q.Get("security") == "reality" && q.Get("pbk") != "" {
 		res.Enabled = true
 		res.Real = &Reality{
 			Enabled: true,

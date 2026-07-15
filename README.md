@@ -16,7 +16,7 @@ Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that ha
 3. `keep`: [Keep connection alive, auto switch proxy](https://github.com/aceberg/unbox#keep-connection-alive-and-switch-if-not)
 4. `parse`: [Convert file with URLs to sing-box config](https://github.com/aceberg/unbox#convert-file-with-urls-to-sing-box-config)
 
-Supported URLs: `vless://`,`hysteria2://`,`trojan://`
+Supported URLs: `vless://`,`hysteria2://` or `hy2://`,`trojan://`   
 
 
 ## Screenshot

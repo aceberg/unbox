@@ -7,8 +7,11 @@ import (
 	"strings"
 
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/pkg/anytls"
 	"github.com/aceberg/unbox/pkg/hysteria2"
+	"github.com/aceberg/unbox/pkg/shadowsocks"
 	"github.com/aceberg/unbox/pkg/trojan"
+	"github.com/aceberg/unbox/pkg/tuic"
 	"github.com/aceberg/unbox/pkg/vless"
 )
 
@@ -31,8 +34,10 @@ func parseFile() {
 			continue
 		}
 
+		lowLine := strings.ToLower(line)
+
 		// keep only vless links (case-insensitive)
-		if strings.HasPrefix(strings.ToLower(line), "vless://") {
+		if strings.HasPrefix(lowLine, "vless://") {
 			v, err := vless.Parse(line)
 			if !check.IfError(err) {
 				v.Tag = renameTag(v.Tag)
@@ -41,7 +46,7 @@ func parseFile() {
 		}
 
 		// keep only Hysteria2 links (case-insensitive)
-		if strings.HasPrefix(strings.ToLower(line), "hysteria2://") {
+		if strings.HasPrefix(lowLine, "hysteria2://") || strings.HasPrefix(lowLine, "hy2://") {
 			h, err := hysteria2.Parse(line)
 			if !check.IfError(err) {
 				h.Tag = renameTag(h.Tag)
@@ -50,11 +55,38 @@ func parseFile() {
 		}
 
 		// keep only Trojan links (case-insensitive)
-		if strings.HasPrefix(strings.ToLower(line), "trojan://") {
+		if strings.HasPrefix(lowLine, "trojan://") {
 			t, err := trojan.Parse(line)
 			if !check.IfError(err) {
 				t.Tag = renameTag(t.Tag)
 				addResult(t, t.Tag)
+			}
+		}
+
+		// keep only Shadowsocks links (case-insensitive)
+		if strings.HasPrefix(lowLine, "ss://") {
+			s, err := shadowsocks.Parse(line)
+			if !check.IfError(err) {
+				s.Tag = renameTag(s.Tag)
+				addResult(s, s.Tag)
+			}
+		}
+
+		// keep only AnyTLS links (case-insensitive)
+		if strings.HasPrefix(lowLine, "anytls://") {
+			a, err := anytls.Parse(line)
+			if !check.IfError(err) {
+				a.Tag = renameTag(a.Tag)
+				addResult(a, a.Tag)
+			}
+		}
+
+		// keep only TUIC links (case-insensitive)
+		if strings.HasPrefix(lowLine, "tuic://") {
+			c, err := tuic.Parse(line)
+			if !check.IfError(err) {
+				c.Tag = renameTag(c.Tag)
+				addResult(c, c.Tag)
 			}
 		}
 	}
