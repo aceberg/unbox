@@ -3,6 +3,7 @@ package api
 import (
 	"io"
 	"log"
+	"strconv"
 	"strings"
 
 	"github.com/aceberg/unbox/internal/check"
@@ -16,8 +17,9 @@ func CheckOneProxy(tag string, logPref string) bool {
 	if share.Settings.TestURL != "" {
 		url = share.Settings.TestURL
 	}
+	l := strconv.FormatUint(uint64(share.Settings.LimitTimeout), 10)
 
-	resp, err := Request("GET", "/proxies/"+tag+"/delay?timeout=3000&url="+url, nil)
+	resp, err := Request("GET", "/proxies/"+tag+"/delay?timeout="+l+"&url="+url, nil)
 	if check.IfError(err) {
 		return false
 	}

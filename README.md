@@ -17,6 +17,8 @@ Unbox is a CLI tool for [sing-box](https://github.com/SagerNet/sing-box) that ha
 4. `parse`: [Convert file with URLs to sing-box config](https://github.com/aceberg/unbox#convert-file-with-urls-to-sing-box-config)
 
 Supported URLs: `vless://`,`hysteria2://` or `hy2://`,`trojan://`   
+Experimental: `anytls://`, `ss://`, `tuic://`
+
 
 
 ## Screenshot
@@ -83,6 +85,7 @@ unbox conf -a "http://127.0.0.1:9090" -o sing-box.json
 | --- | ----------- | ------- |
 | -a | URL of sing-box Clash API |  |
 | -as | Clash API secret |  |
+| -l | Timeout for proxy delay (latency) check (ms) | 3000 |
 | -o | Path to sing-box config file |  |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
@@ -103,6 +106,7 @@ unbox keep -a "http://127.0.0.1:9090"
 | -db | Delay between checks of 3-4 backup servers (seconds). Use 0 to disable | 30 |
 | -dm | Delay between checks of the main server (seconds). Use 0 to disable | 5 |
 | -ds | Delay between auto switch to a faster proxy attempts (seconds). Use 0 to disable | 300 |
+| -l | Timeout for proxy delay (latency) check (ms) | 3000 |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
 

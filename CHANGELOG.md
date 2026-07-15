@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.2] - 2026-07-16
+### Added
+- Experimental support of `AnyTLS`, `Shadowsocks`, `TUIC`
+- Timeout for proxy delay (latency) check
+- Small fixes
+
 ## [v1.0.1] - 2026-07-15
 ### Added
 - Commands

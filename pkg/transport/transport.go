@@ -27,7 +27,7 @@ func Get(q url.Values) (Transport, bool) {
 
 	tp := q.Get("type")
 
-	if tp == "tcp" || tp == "" {
+	if tp == "tcp" || tp == "" || tp == "raw" {
 		return res, false
 	}
 

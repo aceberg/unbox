@@ -44,16 +44,19 @@ func main() {
 		outPtr := confCmd.String("o", "", "Path to output sing-box config file")
 		urlPtr := confCmd.String("u", "", "URL to test proxies")
 
+		limPtr := confCmd.Uint("l", 3000, "Timeout for proxy delay (latency) check (ms)")
+
 		err := confCmd.Parse(os.Args[2:])
 		check.IfError(err)
 
 		share.Settings = share.SettingsType{
-			APIPath:     *apiPtr,
-			APISecret:   *secPtr,
-			TestURL:     *urlPtr,
-			OutPath:     *outPtr,
-			InputPath:   *inpPtr,
-			Deduplicate: *dedupPtr,
+			APIPath:      *apiPtr,
+			APISecret:    *secPtr,
+			TestURL:      *urlPtr,
+			LimitTimeout: *limPtr,
+			OutPath:      *outPtr,
+			InputPath:    *inpPtr,
+			Deduplicate:  *dedupPtr,
 		}
 
 		if *dedupPtr {
@@ -75,18 +78,20 @@ func main() {
 		bkpPtr := keepCmd.Uint("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
 		mainPtr := keepCmd.Uint("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
 		switchPtr := keepCmd.Uint("ds", 5*60, "Delay between auto switch to a faster proxy attempts (s). Use 0 to disable")
+		limPtr := keepCmd.Uint("l", 3000, "Timeout for proxy delay (latency) check (ms)")
 
 		err := keepCmd.Parse(os.Args[2:])
 		check.IfError(err)
 
 		share.Settings = share.SettingsType{
-			APIPath:     *apiPtr,
-			APISecret:   *secPtr,
-			TestURL:     *urlPtr,
-			DelayMain:   *mainPtr,
-			DelayBkp:    *bkpPtr,
-			DelayAll:    *allPtr,
-			DelaySwitch: *switchPtr,
+			APIPath:      *apiPtr,
+			APISecret:    *secPtr,
+			TestURL:      *urlPtr,
+			LimitTimeout: *limPtr,
+			DelayMain:    *mainPtr,
+			DelayBkp:     *bkpPtr,
+			DelayAll:     *allPtr,
+			DelaySwitch:  *switchPtr,
 		}
 
 		keep.Alive()
