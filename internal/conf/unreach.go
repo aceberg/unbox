@@ -5,6 +5,7 @@ import (
 	"strconv"
 
 	"github.com/aceberg/unbox/internal/api"
+	"github.com/aceberg/unbox/internal/share"
 )
 
 // RemoveUnreachable removes unreachable nodes from sing-box config
@@ -15,6 +16,10 @@ func RemoveUnreachable() {
 	if len(aliveServers) == 0 {
 		log.Println("No proxies online. Exiting")
 		return
+	}
+
+	if share.Settings.BestN != 0 && len(aliveServers) > share.Settings.BestN {
+		aliveServers = aliveServers[0:share.Settings.BestN]
 	}
 
 	editConfig(aliveServers)

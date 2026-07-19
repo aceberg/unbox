@@ -44,7 +44,8 @@ func main() {
 		outPtr := confCmd.String("o", "", "Path to output sing-box config file")
 		urlPtr := confCmd.String("u", "", "URL to test proxies")
 
-		limPtr := confCmd.Uint("l", 3000, "Timeout for proxy delay (latency) check (ms)")
+		limPtr := confCmd.Int("l", 3000, "Timeout for proxy delay (latency) check (ms)")
+		benPtr := confCmd.Int("n", 0, "Number of best servers to save (0 - save all)")
 
 		err := confCmd.Parse(os.Args[2:])
 		check.IfError(err)
@@ -57,6 +58,7 @@ func main() {
 			OutPath:      *outPtr,
 			InputPath:    *inpPtr,
 			Deduplicate:  *dedupPtr,
+			BestN:        *benPtr,
 		}
 
 		if *dedupPtr {
@@ -74,11 +76,13 @@ func main() {
 		secPtr := keepCmd.String("as", "", "Clash API secret")
 		urlPtr := keepCmd.String("u", "", "URL to test proxies")
 
-		allPtr := keepCmd.Uint("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
-		bkpPtr := keepCmd.Uint("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
-		mainPtr := keepCmd.Uint("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
-		switchPtr := keepCmd.Uint("ds", 5*60, "Delay between auto switch to a faster proxy attempts (s). Use 0 to disable")
-		limPtr := keepCmd.Uint("l", 3000, "Timeout for proxy delay (latency) check (ms)")
+		allPtr := keepCmd.Int("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
+		bkpPtr := keepCmd.Int("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
+		mainPtr := keepCmd.Int("dm", 5, "Delay between checks of main proxy server (s). Use 0 to disable")
+		switchPtr := keepCmd.Int("ds", 5*60, "Delay between auto switch to a faster proxy attempts (s). Use 0 to disable")
+		stepPtr := keepCmd.Int("st", 50, "Switch to a faster proxy if it is at least this many ms faster than the current one (ms).")
+		limPtr := keepCmd.Int("l", 3000, "Timeout for proxy delay (latency) check (ms)")
+		benPtr := keepCmd.Int("n", 5, "Number of backup servers")
 
 		err := keepCmd.Parse(os.Args[2:])
 		check.IfError(err)
@@ -92,6 +96,8 @@ func main() {
 			DelayBkp:     *bkpPtr,
 			DelayAll:     *allPtr,
 			DelaySwitch:  *switchPtr,
+			SwitchStep:   *stepPtr,
+			BackupN:      *benPtr,
 		}
 
 		keep.Alive()

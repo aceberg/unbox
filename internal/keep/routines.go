@@ -24,7 +24,7 @@ func testCurrentProxy() {
 	}
 }
 
-func updateAliveTags() {
+func testBackup() {
 
 	for {
 		for i, tag := range aliveTags {
@@ -33,7 +33,7 @@ func updateAliveTags() {
 				continue
 			}
 
-			if i > 3 {
+			if i > share.Settings.BackupN {
 				break
 			}
 
@@ -71,7 +71,7 @@ func testAllTags() {
 	}
 }
 
-func checkSwitch() {
+func testFasterProxy() {
 	var curDelay int
 	var betterProxy api.ProxyServer
 	var found bool
@@ -89,7 +89,7 @@ func checkSwitch() {
 			}
 		}
 
-		if found && betterProxy.Delay < (curDelay+50) {
+		if found && betterProxy.Delay < (curDelay+share.Settings.SwitchStep) {
 			log.Println(colorWarn+"WARN "+colorMain+"[MAIN] "+colorReset+"Switching to faster proxy:", betterProxy.Tag)
 			switchProxy(betterProxy.Tag)
 		}

@@ -7,11 +7,14 @@ type SettingsType struct {
 	OutPath      string
 	InputPath    string
 	TestURL      string
-	LimitTimeout uint
-	DelayMain    uint
-	DelayBkp     uint
-	DelayAll     uint
-	DelaySwitch  uint
+	LimitTimeout int
+	DelayMain    int
+	DelayBkp     int
+	DelayAll     int
+	DelaySwitch  int
+	SwitchStep   int
+	BestN        int
+	BackupN      int
 	Deduplicate  bool
 }
 

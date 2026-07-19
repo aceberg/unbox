@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+	"unicode"
 
 	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/pkg/anytls"
@@ -100,7 +101,7 @@ func renameTag(in string) (out string) {
 	if Settings.RenameTags {
 		out = fmt.Sprint("tag", i)
 	} else {
-		out = in + fmt.Sprint(" ", i)
+		out = sanitizeTag(in) + fmt.Sprint(" ", i)
 	}
 	i = i + 1
 
@@ -112,4 +113,13 @@ func addResult(a any, t string) {
 	data, _ := json.MarshalIndent(a, "", "  ")
 	result = append(result, string(data))
 	tags = append(tags, "\""+t+"\"")
+}
+
+func sanitizeTag(tag string) string {
+	return strings.Map(func(r rune) rune {
+		if unicode.IsControl(r) {
+			return -1
+		}
+		return r
+	}, strings.TrimSpace(tag))
 }

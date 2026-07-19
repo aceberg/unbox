@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.3] - 2026-07-
+### Added
+- Shadowsocks fixes
+- CLI flags `-n`,`-st` (see README.md)
+- Sanitize Tags
+
 ## [v1.0.2] - 2026-07-16
 ### Added
 - Experimental support of `AnyTLS`, `Shadowsocks`, `TUIC`

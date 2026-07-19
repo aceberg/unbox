@@ -31,13 +31,13 @@ func Alive() {
 		go testCurrentProxy()
 	}
 	if share.Settings.DelayBkp > 0 {
-		go updateAliveTags()
+		go testBackup()
 	}
 	if share.Settings.DelayAll > 0 {
 		go testAllTagsRoutine()
 	}
 	if share.Settings.DelaySwitch > 0 {
-		go checkSwitch()
+		go testFasterProxy()
 	}
 
 	for {
