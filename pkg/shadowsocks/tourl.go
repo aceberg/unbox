@@ -8,7 +8,7 @@ import (
 )
 
 // ToURL converts Shadowsocks struct to URL string
-func ToURL(h Shadowsocks) string {
+func (h Shadowsocks) ToURL() string {
 
 	cred := h.Method + ":" + h.Password
 	encoded := base64.RawURLEncoding.EncodeToString([]byte(cred))

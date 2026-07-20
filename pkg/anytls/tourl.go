@@ -4,12 +4,10 @@ import (
 	"net"
 	"net/url"
 	"strconv"
-
-	"github.com/aceberg/unbox/pkg/tls"
 )
 
 // ToURL converts AnyTLS struct to URL string
-func ToURL(h AnyTLS) string {
+func (h AnyTLS) ToURL() string {
 	u := &url.URL{
 		Scheme:   "anytls",
 		User:     url.User(h.Password),
@@ -17,7 +15,7 @@ func ToURL(h AnyTLS) string {
 		Fragment: h.Tag,
 	}
 
-	q := tls.ToValues(h.TLS)
+	q := h.TLS.ToValues()
 
 	u.RawQuery = q.Encode()
 

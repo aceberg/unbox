@@ -4,12 +4,10 @@ import (
 	"net"
 	"net/url"
 	"strconv"
-
-	"github.com/aceberg/unbox/pkg/tls"
 )
 
 // ToURL converts Hysteria2 struct to URL string
-func ToURL(h Hysteria2) string {
+func (h Hysteria2) ToURL() string {
 	u := &url.URL{
 		Scheme:   "hysteria2",
 		User:     url.User(h.Password),
@@ -17,7 +15,7 @@ func ToURL(h Hysteria2) string {
 		Fragment: h.Tag,
 	}
 
-	q := tls.ToValues(h.TLS)
+	q := h.TLS.ToValues()
 
 	u.RawQuery = q.Encode()
 

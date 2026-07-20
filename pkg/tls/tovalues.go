@@ -3,7 +3,7 @@ package tls
 import "net/url"
 
 // ToValues converts TLS struct to url.Values
-func ToValues(tl *TLS) url.Values {
+func (tl *TLS) ToValues() url.Values {
 	q := url.Values{}
 
 	if tl == nil {

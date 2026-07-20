@@ -46,7 +46,7 @@ func Invert() {
 			if err := json.Unmarshal(b, &an); err != nil {
 				continue
 			}
-			fmt.Println(anytls.ToURL(an))
+			fmt.Println(an.ToURL())
 			continue
 		}
 
@@ -56,7 +56,7 @@ func Invert() {
 			if err := json.Unmarshal(b, &hy); err != nil {
 				continue
 			}
-			fmt.Println(hysteria2.ToURL(hy))
+			fmt.Println(hy.ToURL())
 			continue
 		}
 
@@ -66,7 +66,7 @@ func Invert() {
 			if err := json.Unmarshal(b, &ss); err != nil {
 				continue
 			}
-			fmt.Println(shadowsocks.ToURL(ss))
+			fmt.Println(ss.ToURL())
 			continue
 		}
 
@@ -76,7 +76,7 @@ func Invert() {
 			if err := json.Unmarshal(b, &tr); err != nil {
 				continue
 			}
-			fmt.Println(trojan.ToURL(tr))
+			fmt.Println(tr.ToURL())
 			continue
 		}
 
@@ -86,7 +86,7 @@ func Invert() {
 			if err := json.Unmarshal(b, &tu); err != nil {
 				continue
 			}
-			fmt.Println(tuic.ToURL(tu))
+			fmt.Println(tu.ToURL())
 			continue
 		}
 
@@ -97,7 +97,7 @@ func Invert() {
 				continue
 			}
 
-			fmt.Println(vless.ToURL(vl))
+			fmt.Println(vl.ToURL())
 			continue
 		}
 	}

@@ -6,12 +6,10 @@ import (
 	"strconv"
 
 	"github.com/aceberg/unbox/internal/check"
-	"github.com/aceberg/unbox/pkg/tls"
-	"github.com/aceberg/unbox/pkg/transport"
 )
 
 // ToURL converts VLESS struct to URL string
-func ToURL(h VLESS) string {
+func (h VLESS) ToURL() string {
 	u := &url.URL{
 		Scheme:   "vless",
 		User:     url.User(h.UUID),
@@ -19,7 +17,7 @@ func ToURL(h VLESS) string {
 		Fragment: h.Tag,
 	}
 
-	q := check.MergeURLValues(tls.ToValues(h.TLS), transport.ToValues(h.Trans))
+	q := check.MergeURLValues(h.TLS.ToValues(), h.Trans.ToValues())
 
 	if h.Flow != "" {
 		q.Set("flow", h.Flow)

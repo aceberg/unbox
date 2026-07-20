@@ -4,12 +4,10 @@ import (
 	"net"
 	"net/url"
 	"strconv"
-
-	"github.com/aceberg/unbox/pkg/tls"
 )
 
 // ToURL converts TUIC struct to URL string
-func ToURL(h TUIC) string {
+func (h TUIC) ToURL() string {
 	u := &url.URL{
 		Scheme:   "tuic",
 		User:     url.User(h.UUID),
@@ -17,7 +15,7 @@ func ToURL(h TUIC) string {
 		Fragment: h.Tag,
 	}
 
-	q := tls.ToValues(h.TLS)
+	q := h.TLS.ToValues()
 
 	u.RawQuery = q.Encode()
 

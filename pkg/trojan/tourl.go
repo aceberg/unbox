@@ -6,12 +6,10 @@ import (
 	"strconv"
 
 	"github.com/aceberg/unbox/internal/check"
-	"github.com/aceberg/unbox/pkg/tls"
-	"github.com/aceberg/unbox/pkg/transport"
 )
 
 // ToURL converts Trojan struct to URL string
-func ToURL(h Trojan) string {
+func (h Trojan) ToURL() string {
 	u := &url.URL{
 		Scheme:   "trojan",
 		User:     url.User(h.Password),
@@ -19,7 +17,7 @@ func ToURL(h Trojan) string {
 		Fragment: h.Tag,
 	}
 
-	q := check.MergeURLValues(tls.ToValues(h.TLS), transport.ToValues(h.Trans))
+	q := check.MergeURLValues(h.TLS.ToValues(), h.Trans.ToValues())
 
 	u.RawQuery = q.Encode()
 

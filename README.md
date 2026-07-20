@@ -86,6 +86,7 @@ unbox conf -a "http://127.0.0.1:9090" -o sing-box.json
 | -a | URL of sing-box Clash API |  |
 | -as | Clash API secret |  |
 | -l | Timeout for proxy delay (latency) check (ms) | 3000 |
+| -n | Number of best servers to save (0 - save all) | 0 |
 | -o | Path to sing-box config file |  |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
@@ -103,10 +104,12 @@ unbox keep -a "http://127.0.0.1:9090"
 | -a | URL of sing-box Clash API |  |
 | -as | Clash API secret |  |
 | -da | Delay between checks of all proxy servers (seconds). Use 0 to disable | 300 |
-| -db | Delay between checks of 3-4 backup servers (seconds). Use 0 to disable | 30 |
+| -db | Delay between checks of 4-5 backup servers (seconds). Use 0 to disable | 30 |
 | -dm | Delay between checks of the main server (seconds). Use 0 to disable | 5 |
 | -ds | Delay between auto switch to a faster proxy attempts (seconds). Use 0 to disable | 300 |
 | -l | Timeout for proxy delay (latency) check (ms) | 3000 |
+| -n | Number of backup servers | 5 |
+| -st | Switch to a faster proxy if it is at least this many ms faster than the current one (ms) | 50 |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
 
