@@ -3,6 +3,7 @@ package api
 import (
 	"io"
 	"net/http"
+	"time"
 
 	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/internal/share"
@@ -29,5 +30,9 @@ func Request(method, path string, body io.Reader) (*http.Response, error) {
 		req.Header.Set("Content-Type", "application/json")
 	}
 
-	return http.DefaultClient.Do(req)
+	var client = &http.Client{
+		Timeout: 60 * time.Second,
+	}
+
+	return client.Do(req)
 }

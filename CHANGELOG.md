@@ -2,6 +2,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.4] - 2026-08-05
+### Added
+- Client timeout to prevent hanging on unreachable checks
+- Validate `short_id` for `TLS.Realiry`
+
 ## [v1.0.3] - 2026-07-20
 ### Added
 - Shadowsocks fixes

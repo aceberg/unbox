@@ -1,6 +1,8 @@
 package tls
 
 import (
+	"encoding/hex"
+	"log"
 	"net/url"
 	"slices"
 	"strings"
@@ -46,7 +48,7 @@ func Get(q url.Values) (TLS, bool) {
 		res.Real = &Reality{
 			Enabled: true,
 			Key:     q.Get("pbk"),
-			ID:      q.Get("sid"),
+			ID:      validShortID(q.Get("sid")),
 		}
 		res.Utls = &UTLS{
 			Enabled: true,
@@ -68,4 +70,12 @@ func Get(q url.Values) (TLS, bool) {
 	}
 
 	return res, res.Enabled
+}
+
+func validShortID(s string) string {
+	if _, err := hex.DecodeString(s); err != nil {
+		log.Println("WARN invalid short_id:", s, err)
+		return ""
+	}
+	return s
 }

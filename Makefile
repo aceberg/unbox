@@ -13,7 +13,7 @@ run:
 arun:
 	go run . conf \
 		-a "http://127.0.0.1:9092" \
- 		-o tmp/sing-box.json -l 800 -n 120
+ 		-o tmp/sing-box.json -l 1000
 
 drun:
 	go run . conf \
