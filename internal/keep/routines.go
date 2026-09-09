@@ -14,7 +14,7 @@ func testCurrentProxy() {
 	for {
 		currentProxy = api.GetCurrntProxy()
 		if currentProxy != "" {
-			ok := api.CheckOneProxy(currentProxy, colorMain+"[MAIN]"+colorReset)
+			ok := api.CheckOneProxy(currentProxy, share.Col.Main+"[MAIN]"+share.Col.Reset)
 			if !ok {
 				alive = false
 			}
@@ -37,7 +37,7 @@ func testBackup() {
 				break
 			}
 
-			api.CheckOneProxy(tag.Tag, colorBkp+"[BKP] "+colorReset)
+			api.CheckOneProxy(tag.Tag, share.Col.Bkp+"[BKP] "+share.Col.Reset)
 		}
 
 		aliveTags = api.GetAliveServers()
@@ -90,7 +90,7 @@ func testFasterProxy() {
 		}
 
 		if found && betterProxy.Delay < (curDelay+share.Settings.SwitchStep) {
-			log.Println(colorWarn+"WARN "+colorMain+"[MAIN] "+colorReset+"Switching to faster proxy:", betterProxy.Tag)
+			log.Println(share.Col.Warn+"WARN "+share.Col.Main+"[MAIN] "+share.Col.Reset+"Switching to faster proxy:", betterProxy.Tag)
 			switchProxy(betterProxy.Tag)
 		}
 

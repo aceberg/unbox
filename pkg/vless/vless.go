@@ -3,8 +3,8 @@ package vless
 import (
 	"errors"
 	"net/url"
-	"strconv"
 
+	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/pkg/tls"
 	"github.com/aceberg/unbox/pkg/transport"
 )
@@ -16,7 +16,7 @@ func Parse(raw string) (*VLESS, error) {
 		return nil, err
 	}
 
-	portInt, err := strconv.Atoi(u.Port())
+	portInt, err := check.StringToPort(u.Port())
 	if err != nil {
 		return nil, err
 	}
@@ -41,14 +41,18 @@ func Parse(raw string) (*VLESS, error) {
 		return nil, errors.New("unsupported flow: " + res.Flow)
 	}
 
-	tr, ok := transport.Get(q)
-	if ok {
-		res.Trans = &tr
-	}
-
 	t, ok := tls.Get(q)
 	if ok {
 		res.TLS = &t
+	}
+
+	tr, ok := transport.Get(q)
+	if ok {
+		res.Trans = &tr
+
+		if res.Trans.Type == "quic" && res.TLS == nil {
+			return nil, errors.New("TLS required for transport type quic: " + raw)
+		}
 	}
 
 	return res, nil

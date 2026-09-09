@@ -3,8 +3,8 @@ package tuic
 import (
 	"errors"
 	"net/url"
-	"strconv"
 
+	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/pkg/tls"
 )
 
@@ -15,7 +15,7 @@ func Parse(raw string) (*TUIC, error) {
 		return nil, err
 	}
 
-	portInt, err := strconv.Atoi(u.Port())
+	portInt, err := check.StringToPort(u.Port())
 	if err != nil {
 		return nil, err
 	}

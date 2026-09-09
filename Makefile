@@ -12,7 +12,7 @@ run:
 
 arun:
 	go run . conf \
-		-a "http://127.0.0.1:9092" \
+		-a "http://127.0.0.1:9094" \
  		-o tmp/sing-box.json -l 1000
 
 drun:

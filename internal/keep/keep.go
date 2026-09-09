@@ -16,14 +16,6 @@ var (
 	aliveTags    []api.ProxyServer
 )
 
-const (
-	colorErr   = "\033[31m" // red
-	colorBkp   = "\033[32m" // green
-	colorWarn  = "\033[33m" // yellow
-	colorMain  = "\033[36m" // cyan
-	colorReset = "\033[0m"  // reset
-)
-
 // Alive - keep alive and auto switch
 func Alive() {
 
@@ -47,7 +39,7 @@ func Alive() {
 				alive = true
 				switchProxy(tag)
 			} else {
-				log.Println(colorErr + "ERROR" + colorMain + "[MAIN] " + colorReset + "No proxies online!")
+				log.Println(share.Col.Err + "ERROR" + share.Col.Main + "[MAIN] " + share.Col.Reset + "No proxies online!")
 			}
 		}
 
@@ -59,11 +51,11 @@ func switchProxy(tag string) {
 
 	selName := api.GetSelectorName()
 	if selName == "" {
-		log.Println(colorErr + "ERROR" + colorMain + "[MAIN] " + colorReset + "Can't get Selector tag name to select new proxy")
+		log.Println(share.Col.Err + "ERROR" + share.Col.Main + "[MAIN] " + share.Col.Reset + "Can't get Selector tag name to select new proxy")
 		return
 	}
 
-	log.Println(colorWarn+"WARN "+colorMain+"[MAIN] "+colorReset+"Selecting proxy:", tag)
+	log.Println(share.Col.Warn+"WARN "+share.Col.Main+"[MAIN] "+share.Col.Reset+"Selecting proxy:", tag)
 	currentProxy = tag
 
 	body := strings.NewReader(`{"name":"` + tag + `"}`)

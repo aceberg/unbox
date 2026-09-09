@@ -3,8 +3,8 @@ package trojan
 import (
 	"errors"
 	"net/url"
-	"strconv"
 
+	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/pkg/tls"
 	"github.com/aceberg/unbox/pkg/transport"
 )
@@ -16,7 +16,7 @@ func Parse(raw string) (*Trojan, error) {
 		return nil, err
 	}
 
-	portInt, err := strconv.Atoi(u.Port())
+	portInt, err := check.StringToPort(u.Port())
 	if err != nil {
 		return nil, err
 	}

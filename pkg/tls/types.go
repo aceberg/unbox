@@ -1,6 +1,7 @@
 package tls
 
 import (
+	"encoding/base64"
 	"encoding/hex"
 	"log"
 	"net/url"
@@ -43,7 +44,7 @@ func Get(q url.Values) (TLS, bool) {
 		}
 	}
 
-	if q.Get("security") == "reality" && q.Get("pbk") != "" {
+	if q.Get("security") == "reality" && validPublicKey(q.Get("pbk")) {
 		res.Enabled = true
 		res.Real = &Reality{
 			Enabled: true,
@@ -78,4 +79,16 @@ func validShortID(s string) string {
 		return ""
 	}
 	return s
+}
+
+func validPublicKey(s string) bool {
+	b, err := base64.RawURLEncoding.DecodeString(s)
+	if err == nil {
+		if len(b) == 32 {
+			return true
+		}
+	}
+	log.Println("WARN invalid public_key:", s, err)
+
+	return false
 }

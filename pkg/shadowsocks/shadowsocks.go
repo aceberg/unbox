@@ -5,8 +5,9 @@ import (
 	"errors"
 	"net/url"
 	"slices"
-	"strconv"
 	"strings"
+
+	"github.com/aceberg/unbox/internal/check"
 )
 
 // Parse converts Shadowsocks URL string to struct
@@ -16,7 +17,7 @@ func Parse(raw string) (*Shadowsocks, error) {
 		return nil, err
 	}
 
-	portInt, err := strconv.Atoi(u.Port())
+	portInt, err := check.StringToPort(u.Port())
 	if err != nil {
 		return nil, err
 	}

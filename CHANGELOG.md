@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.5] - 2026-09-09
+### Added
+- Validate `port`
+- Validate `public_key` for `TLS.Realiry`
+- Parallel scans when checking for unreachable nodes
+
 ## [v1.0.4] - 2026-08-05
 ### Added
 - Client timeout to prevent hanging on unreachable checks

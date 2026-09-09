@@ -12,6 +12,7 @@ import (
 
 // CheckOneProxy returns true if proxy is alive
 func CheckOneProxy(tag string, logPref string) bool {
+	var online bool
 
 	url := "https://www.gstatic.com/generate_204"
 	if share.Settings.TestURL != "" {
@@ -32,9 +33,14 @@ func CheckOneProxy(tag string, logPref string) bool {
 	err = resp.Body.Close()
 	check.IfError(err)
 
-	msg := string(body)
+	msg := strings.TrimRight(string(body), "\r\n")
+
+	if !strings.Contains(msg, "message") {
+		online = true
+		msg = share.Col.Ok + msg + share.Col.Reset
+	}
 
 	log.Print("INFO "+logPref+" \""+tag+"\":", msg)
 
-	return !strings.Contains(msg, "message")
+	return online
 }
