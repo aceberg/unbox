@@ -2,6 +2,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.6] - 2026-09-10
+### Added
+- Validate `UUID` for `vless` and `tuic`
+- Validate WebSocket transport `path`
+- Validate Shadowsocks methods
+- Better `tag` sanitize
+
 ## [v1.0.5] - 2026-09-09
 ### Added
 - Validate `port`

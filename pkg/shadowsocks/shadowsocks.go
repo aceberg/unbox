@@ -3,6 +3,7 @@ package shadowsocks
 import (
 	"encoding/base64"
 	"errors"
+	"fmt"
 	"net/url"
 	"slices"
 	"strings"
@@ -44,6 +45,16 @@ func Parse(raw string) (*Shadowsocks, error) {
 		return nil, errors.New("unsupported method " + method + " in " + raw)
 	}
 
+	// EIH is only supported by AES-2022 methods.
+	if method == "2022-blake3-chacha20-poly1305" && strings.Contains(password, ":") {
+		return nil, errors.New("EIH is not supported with " + method + " in " + raw)
+	}
+
+	err = validate2022Key(method, password)
+	if err != nil {
+		return nil, err
+	}
+
 	res := &Shadowsocks{
 		Type:     "shadowsocks",
 		Tag:      u.Fragment,
@@ -82,4 +93,30 @@ func base64Decode(encoded string) (string, string) {
 	}
 
 	return "", ""
+}
+
+func validate2022Key(method, password string) error {
+	want := 0
+
+	switch method {
+	case "2022-blake3-aes-128-gcm":
+		want = 16
+	case "2022-blake3-aes-256-gcm", "2022-blake3-chacha20-poly1305":
+		want = 32
+	default:
+		return nil // not a 2022 method
+	}
+
+	// EIH passwords have two base64 keys separated by ':'.
+	for _, key := range strings.Split(password, ":") {
+		b, err := base64.StdEncoding.DecodeString(key)
+		if err != nil {
+			return fmt.Errorf("invalid base64 key")
+		}
+		if len(b) != want {
+			return fmt.Errorf("bad key length, required %d, got %d", want, len(b))
+		}
+	}
+
+	return nil
 }

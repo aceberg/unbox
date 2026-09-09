@@ -3,6 +3,7 @@ package vless
 import (
 	"errors"
 	"net/url"
+	"strings"
 
 	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/pkg/tls"
@@ -21,6 +22,12 @@ func Parse(raw string) (*VLESS, error) {
 		return nil, err
 	}
 
+	id := strings.TrimSpace(u.User.Username())
+	err = check.ValidateUUID(id)
+	if err != nil {
+		return nil, err
+	}
+
 	q := u.Query()
 
 	res := &VLESS{
@@ -28,7 +35,7 @@ func Parse(raw string) (*VLESS, error) {
 		Tag:     u.Fragment,
 		Server:  u.Hostname(),
 		Port:    portInt,
-		UUID:    u.User.Username(),
+		UUID:    id,
 		Flow:    q.Get("flow"),
 		PackEnc: "xudp",
 	}

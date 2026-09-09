@@ -116,10 +116,29 @@ func addResult(a any, t string) {
 }
 
 func sanitizeTag(tag string) string {
-	return strings.Map(func(r rune) rune {
+	tag = strings.TrimSpace(tag)
+
+	// Remove control characters.
+	tag = strings.Map(func(r rune) rune {
 		if unicode.IsControl(r) {
 			return -1
 		}
 		return r
-	}, strings.TrimSpace(tag))
+	}, tag)
+
+	// Replace characters that commonly break JSON or sing-box tags.
+	replacer := strings.NewReplacer(
+		`"`, `'`,
+		`\`, "/",
+		"\n", " ",
+		"\r", " ",
+		"\t", " ",
+	)
+
+	tag = replacer.Replace(tag)
+
+	// Collapse repeated whitespace.
+	tag = strings.Join(strings.Fields(tag), " ")
+
+	return tag
 }

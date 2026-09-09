@@ -19,11 +19,6 @@ func RemoveUnreachable() {
 	aliveServers := api.GetAliveServers()
 	lenOnline := len(aliveServers)
 
-	if lenOnline == 0 {
-		log.Println("No proxies online. Exiting")
-		return
-	}
-
 	fmt.Println()
 	log.Println("INFO Scanned servers:", lenAll)
 	log.Println("INFO Found online:", lenOnline)

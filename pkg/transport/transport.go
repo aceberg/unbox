@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/url"
 	"slices"
+	"strings"
 )
 
 // Headers for Transport struct
@@ -57,8 +58,25 @@ func Get(q url.Values) (Transport, bool) {
 		}
 		res.Type = tp
 		res.Head = head
-		res.Path = q.Get("path")
+		res.Path = validateWSPath(q.Get("path"))
 	}
 
 	return res, true
+}
+
+func validateWSPath(path string) string {
+	if path == "" {
+		return "/"
+	}
+
+	if !strings.HasPrefix(path, "/") {
+		path = "/" + path
+	}
+
+	// url.PathUnescape checks every %XX escape.
+	if _, err := url.PathUnescape(path); err != nil {
+		return "/"
+	}
+
+	return path
 }
