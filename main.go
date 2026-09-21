@@ -42,7 +42,9 @@ func main() {
 		secPtr := confCmd.String("as", "", "Clash API secret")
 		inpPtr := confCmd.String("i", "", "Path to sing-box config file to get URLs from")
 		outPtr := confCmd.String("o", "", "Path to output sing-box config file")
-		urlPtr := confCmd.String("u", "", "URL to test proxies")
+		tlhPtr := confCmd.String("tlsh", "github.com", "Host to verify TLS certificate")
+		tlpPtr := confCmd.String("tlsp", "", "SOCKS5 proxy address for TLS check (example \"127.0.0.1:1080\")")
+		urlPtr := confCmd.String("u", "https://www.gstatic.com/generate_204", "URL to test proxies")
 
 		limPtr := confCmd.Int("l", 3000, "Timeout for proxy delay (latency) check (ms)")
 		benPtr := confCmd.Int("n", 0, "Number of best servers to save (0 - save all)")
@@ -59,6 +61,8 @@ func main() {
 			InputPath:    *inpPtr,
 			Deduplicate:  *dedupPtr,
 			BestN:        *benPtr,
+			ProxyForTLS:  *tlpPtr,
+			HostForTLS:   *tlhPtr,
 		}
 
 		if *dedupPtr {
@@ -74,7 +78,7 @@ func main() {
 
 		apiPtr := keepCmd.String("a", "", "URL of sing-box Clash API")
 		secPtr := keepCmd.String("as", "", "Clash API secret")
-		urlPtr := keepCmd.String("u", "", "URL to test proxies")
+		urlPtr := keepCmd.String("u", "https://www.gstatic.com/generate_204", "URL to test proxies")
 
 		allPtr := keepCmd.Int("da", 5*60, "Delay between checks of all proxy servers (s). Use 0 to disable")
 		bkpPtr := keepCmd.Int("db", 30, "Delay between checks of backup proxy servers (s). Use 0 to disable")
@@ -110,6 +114,7 @@ func main() {
 
 		filePtr := parseCmd.String("f", "VLESS.txt", "Path to file with URLs")
 		outPtr := parseCmd.String("o", "", "Path to output sing-box config file")
+		prePtr := parseCmd.String("p", "", "Prefix to add before each tag")
 		tmplPtr := parseCmd.String("t", "", "Path to template sing-box config")
 
 		err := parseCmd.Parse(os.Args[2:])
@@ -121,6 +126,7 @@ func main() {
 			OutPath:      *outPtr,
 			RenameTags:   *namePtr,
 			ValidateJSON: *jsonPtr,
+			TagPrefix:    *prePtr,
 		}
 
 		parse.Start()

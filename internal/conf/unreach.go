@@ -13,11 +13,18 @@ import (
 
 // RemoveUnreachable removes unreachable nodes from sing-box config
 func RemoveUnreachable() {
+	var lenAll, lenOnline int
+	var aliveServers []api.ProxyServer
+
 	start := time.Now()
 
-	lenAll := checkAllTags()
-	aliveServers := api.GetAliveServers()
-	lenOnline := len(aliveServers)
+	if share.Settings.ProxyForTLS != "" {
+		lenAll, aliveServers = checkAllTLS()
+	} else {
+		lenAll = checkAllTags()
+		aliveServers = api.GetAliveServers()
+	}
+	lenOnline = len(aliveServers)
 
 	fmt.Println()
 	log.Println("INFO Scanned servers:", lenAll)

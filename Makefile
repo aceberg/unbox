@@ -8,12 +8,18 @@ run:
 	go run . parse \
 		-f tmp/VLESS.txt \
  		-t tmp/tmpl.json \
- 		-o tmp/sing-box.json -j
+ 		-o tmp/sing-box.json -j -p "[TEST 2] "
 
 arun:
 	go run . conf \
 		-a "http://127.0.0.1:9094" \
  		-o tmp/sing-box.json -l 1000
+
+trun:
+	go run . conf \
+		-a "http://0.0.0.0:9094" \
+		-o tmp/sing-box.json \
+ 		-tlsp "127.0.0.1:1089" -tlsh "x.com"
 
 drun:
 	go run . conf \

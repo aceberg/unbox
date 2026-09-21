@@ -2,7 +2,6 @@ package keep
 
 import (
 	"log"
-	"strings"
 	"time"
 
 	"github.com/aceberg/unbox/internal/api"
@@ -51,16 +50,14 @@ func switchProxy(tag string) {
 
 	selName := api.GetSelectorName()
 	if selName == "" {
-		log.Println(share.Col.Err + "ERROR" + share.Col.Main + "[MAIN] " + share.Col.Reset + "Can't get Selector tag name to select new proxy")
+		log.Println(share.Col.Err + "ERROR" + share.Col.Reset + "Can't get Selector tag name to switch proxy")
 		return
 	}
 
 	log.Println(share.Col.Warn+"WARN "+share.Col.Main+"[MAIN] "+share.Col.Reset+"Selecting proxy:", tag)
 	currentProxy = tag
 
-	body := strings.NewReader(`{"name":"` + tag + `"}`)
-
-	_, err := api.Request("PUT", "/proxies/"+selName, body)
+	err := api.SwitchProxy(selName, tag)
 	check.IfError(err)
 }
 

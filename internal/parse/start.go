@@ -9,6 +9,7 @@ type SettingsType struct {
 	FilePath     string
 	OutPath      string
 	TemplatePath string
+	TagPrefix    string
 	RenameTags   bool
 	ValidateJSON bool
 }

@@ -103,6 +103,10 @@ func renameTag(in string) (out string) {
 	} else {
 		out = sanitizeTag(in) + fmt.Sprint(" ", i)
 	}
+	if Settings.TagPrefix != "" {
+		out = Settings.TagPrefix + out
+	}
+
 	i = i + 1
 
 	return out

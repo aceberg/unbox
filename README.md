@@ -88,6 +88,8 @@ unbox conf -a "http://127.0.0.1:9090" -o sing-box.json
 | -l | Timeout for proxy delay (latency) check (ms) | 3000 |
 | -n | Number of best servers to save (0 - save all) | 0 |
 | -o | Path to sing-box config file |  |
+| -tlsh | Host to verify TLS certificate | github.com |
+| -tlsp | SOCKS5 proxy address for TLS check (example "127.0.0.1:1080") | |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
 
 </details>
@@ -133,6 +135,7 @@ unbox parse -f VLESS.txt -t tmpl.json -o sing-box.json -j
 | -j | Validate and Indent JSON output |  |
 | -n | Rename tags. If used, will rename tags to `tag1`, `tag2`... | |
 | -o | Path to output sing-box config file |  |
+| -p | Prefix to add before each tag |  |
 | -t | Path to template sing-box config. Example [here](https://github.com/aceberg/unbox/blob/main/configs/sing-box.tmpl.json). There are only two variables available in template: `{{ .Unbox_tags }}` and `{{ .Unbox_outbounds }}` |  |
 </details>
 

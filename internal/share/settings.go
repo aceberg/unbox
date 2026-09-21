@@ -7,6 +7,8 @@ type SettingsType struct {
 	OutPath      string
 	InputPath    string
 	TestURL      string
+	ProxyForTLS  string
+	HostForTLS   string
 	LimitTimeout int
 	DelayMain    int
 	DelayBkp     int

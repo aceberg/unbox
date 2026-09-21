@@ -1,8 +1,10 @@
 package api
 
 import (
+	"errors"
 	"io"
 	"log"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -10,14 +12,29 @@ import (
 	"github.com/aceberg/unbox/internal/share"
 )
 
+// SwitchProxy switches proxy
+func SwitchProxy(selName, tag string) error {
+
+	body := strings.NewReader(`{"name":"` + tag + `"}`)
+
+	resp, err := Request("PUT", "/proxies/"+selName, body)
+	if err != nil {
+		return err
+	}
+	defer check.IfError(resp.Body.Close())
+
+	if resp.StatusCode != http.StatusNoContent {
+		return errors.New("unexpected status:" + strconv.Itoa(resp.StatusCode))
+	}
+
+	return nil
+}
+
 // CheckOneProxy returns true if proxy is alive
 func CheckOneProxy(tag string, logPref string) bool {
 	var online bool
 
-	url := "https://www.gstatic.com/generate_204"
-	if share.Settings.TestURL != "" {
-		url = share.Settings.TestURL
-	}
+	url := share.Settings.TestURL
 	l := strconv.FormatUint(uint64(share.Settings.LimitTimeout), 10)
 
 	resp, err := Request("GET", "/proxies/"+tag+"/delay?timeout="+l+"&url="+url, nil)
@@ -30,8 +47,7 @@ func CheckOneProxy(tag string, logPref string) bool {
 		return false
 	}
 
-	err = resp.Body.Close()
-	check.IfError(err)
+	check.IfError(resp.Body.Close())
 
 	msg := strings.TrimRight(string(body), "\r\n")
 
