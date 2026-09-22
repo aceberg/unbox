@@ -2,17 +2,10 @@ package keep
 
 import (
 	"log"
-	"time"
 
 	"github.com/aceberg/unbox/internal/api"
 	"github.com/aceberg/unbox/internal/check"
 	"github.com/aceberg/unbox/internal/share"
-)
-
-var (
-	currentProxy string
-	alive        bool
-	aliveTags    []api.ProxyServer
 )
 
 // Alive - keep alive and auto switch
@@ -31,19 +24,7 @@ func Alive() {
 		go testFasterProxy()
 	}
 
-	for {
-		if !alive {
-			tag, ok := chooseTag()
-			if ok {
-				alive = true
-				switchProxy(tag)
-			} else {
-				log.Println(share.Col.Err + "ERROR" + share.Col.Main + "[MAIN] " + share.Col.Reset + "No proxies online!")
-			}
-		}
-
-		time.Sleep(time.Duration(1) * time.Second)
-	}
+	select {}
 }
 
 func switchProxy(tag string) {
@@ -55,7 +36,6 @@ func switchProxy(tag string) {
 	}
 
 	log.Println(share.Col.Warn+"WARN "+share.Col.Main+"[MAIN] "+share.Col.Reset+"Selecting proxy:", tag)
-	currentProxy = tag
 
 	err := api.SwitchProxy(selName, tag)
 	check.IfError(err)
@@ -63,7 +43,8 @@ func switchProxy(tag string) {
 
 func chooseTag() (string, bool) {
 
-	aliveTags = api.GetAliveServers()
+	aliveTags := api.GetAliveServers()
+	currentProxy := api.GetCurrntProxy()
 
 	for _, tag := range aliveTags {
 		if tag.Tag != currentProxy {

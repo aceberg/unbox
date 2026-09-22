@@ -15,6 +15,10 @@ type ProxyServer struct {
 	Delay int
 }
 
+var httpClient = &http.Client{
+	Timeout: 60 * time.Second,
+}
+
 // Request sends request to sing-box Clash API
 func Request(method, path string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(method, share.Settings.APIPath+path, body)
@@ -30,9 +34,5 @@ func Request(method, path string, body io.Reader) (*http.Response, error) {
 		req.Header.Set("Content-Type", "application/json")
 	}
 
-	var client = &http.Client{
-		Timeout: 60 * time.Second,
-	}
-
-	return client.Do(req)
+	return httpClient.Do(req)
 }

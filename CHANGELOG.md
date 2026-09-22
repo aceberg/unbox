@@ -2,10 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [v1.0.7] - 2026-09-
+## [v1.0.7] - 2026-09-22
 ### Added
 - Parse: add prefix before tag
 - Conf: check TLS certificate of a host through proxy
+- Faster Docker build
+- Keep: refactor
 
 ## [v1.0.6] - 2026-09-10
 ### Added

@@ -27,7 +27,7 @@ drun:
 
 krun:
 	go run . keep \
-		-a "http://127.0.0.1:9091"
+		-a "http://127.0.0.1:9094"
 
 irun:
 	go run . conf \

@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -34,10 +35,9 @@ func SwitchProxy(selName, tag string) error {
 func CheckOneProxy(tag string, logPref string) bool {
 	var online bool
 
-	url := share.Settings.TestURL
 	l := strconv.FormatUint(uint64(share.Settings.LimitTimeout), 10)
 
-	resp, err := Request("GET", "/proxies/"+tag+"/delay?timeout="+l+"&url="+url, nil)
+	resp, err := Request("GET", "/proxies/"+url.PathEscape(tag)+"/delay?timeout="+l+"&url="+url.QueryEscape(share.Settings.TestURL), nil)
 	if check.IfError(err) {
 		return false
 	}
