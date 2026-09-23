@@ -122,6 +122,10 @@ func addResult(a any, t string) {
 func sanitizeTag(tag string) string {
 	tag = strings.TrimSpace(tag)
 
+	if len(tag) > 128 {
+		tag = tag[:128]
+	}
+
 	// Remove control characters.
 	tag = strings.Map(func(r rune) rune {
 		if unicode.IsControl(r) {

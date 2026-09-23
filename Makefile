@@ -12,12 +12,12 @@ run:
 
 arun:
 	go run . conf \
-		-a "http://127.0.0.1:9094" \
+		-a "http://127.0.0.1:9099" \
  		-o tmp/sing-box.json -l 1000
 
 trun:
 	go run . conf \
-		-a "http://0.0.0.0:9094" \
+		-a "http://0.0.0.0:9099" \
 		-o tmp/sing-box.json \
  		-tlsp "127.0.0.1:1089" -tlsh "x.com"
 
@@ -27,7 +27,7 @@ drun:
 
 krun:
 	go run . keep \
-		-a "http://127.0.0.1:9094"
+		-a "http://127.0.0.1:9099"
 
 irun:
 	go run . conf \

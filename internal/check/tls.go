@@ -19,7 +19,7 @@ func HandshakeTLS(proxyAddr, host string) error {
 		return err
 	}
 
-	IfError(conn.SetDeadline(time.Now().Add(40 * time.Second)))
+	IfError(conn.SetDeadline(time.Now().Add(15 * time.Second)))
 
 	tlsConn := tls.Client(conn, &tls.Config{
 		ServerName: host,
