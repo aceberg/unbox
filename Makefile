@@ -8,7 +8,7 @@ run:
 	go run . parse \
 		-f tmp/VLESS.txt \
  		-t tmp/tmpl.json \
- 		-o tmp/sing-box.json -j -p "[TEST 2] "
+ 		-o tmp/sing-box.json -j
 
 arun:
 	go run . conf \

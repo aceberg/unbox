@@ -12,6 +12,7 @@ import (
 	"github.com/aceberg/unbox/pkg/trojan"
 	"github.com/aceberg/unbox/pkg/tuic"
 	"github.com/aceberg/unbox/pkg/vless"
+	"github.com/aceberg/unbox/pkg/vmess"
 )
 
 // Invert converts sing-box config outbounds to URLs
@@ -92,6 +93,17 @@ func Invert() {
 
 		if m["type"] == "vless" {
 			var vl vless.VLESS
+
+			if err := json.Unmarshal(b, &vl); err != nil {
+				continue
+			}
+
+			fmt.Println(vl.ToURL())
+			continue
+		}
+
+		if m["type"] == "vmess" {
+			var vl vmess.VMESS
 
 			if err := json.Unmarshal(b, &vl); err != nil {
 				continue

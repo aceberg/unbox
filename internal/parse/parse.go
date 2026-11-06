@@ -14,6 +14,7 @@ import (
 	"github.com/aceberg/unbox/pkg/trojan"
 	"github.com/aceberg/unbox/pkg/tuic"
 	"github.com/aceberg/unbox/pkg/vless"
+	"github.com/aceberg/unbox/pkg/vmess"
 )
 
 // Parse file with links
@@ -70,6 +71,15 @@ func parseFile() {
 			if !check.IfError(err) {
 				s.Tag = renameTag(s.Tag)
 				addResult(s, s.Tag)
+			}
+		}
+
+		// keep only vmess links (case-insensitive)
+		if strings.HasPrefix(lowLine, "vmess://") {
+			v, err := vmess.Parse(line)
+			if !check.IfError(err) {
+				v.Tag = renameTag(v.Tag)
+				addResult(v, v.Tag)
 			}
 		}
 
