@@ -2,6 +2,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.0.9] - 2026-11-08
+### Added
+- `VMess` support
+
 ## [v1.0.8] - 2026-09-23
 ### Added
 - Small fixes

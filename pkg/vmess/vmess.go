@@ -32,13 +32,14 @@ func Parse(raw string) (*VMESS, error) {
 	q := u.Query()
 
 	res := &VMESS{
-		Type:     "vmess",
-		Tag:      u.Fragment,
-		Server:   u.Hostname(),
-		Port:     portInt,
-		UUID:     id,
-		Security: "auto",
-		PackEnc:  "xudp",
+		Type:       "vmess",
+		Tag:        u.Fragment,
+		Server:     u.Hostname(),
+		Port:       portInt,
+		UUID:       id,
+		Security:   "auto",
+		AuthLength: true,
+		PackEnc:    "xudp",
 	}
 
 	if res.Server == "" || res.Port == 0 || res.UUID == "" {
