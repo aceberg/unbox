@@ -1,6 +1,7 @@
 package vless
 
 import (
+	"encoding/base64"
 	"errors"
 	"net/url"
 	"strings"
@@ -65,10 +66,29 @@ func Parse(raw string) (*VLESS, error) {
 
 	if share.ParseSettings.LxCompat {
 		enc := q.Get("encryption")
-		if enc != "" && enc != "none" {
+		if enc != "" && enc != "none" && validEncryption(enc) {
 			res.Encryption = enc
 		}
 	}
 
 	return res, nil
+}
+
+func validEncryption(enc string) bool {
+
+	parts := strings.SplitN(enc, ".", 4)
+	if len(parts) != 4 || parts[0] != "mlkem768x25519plus" {
+		return false
+	}
+
+	if parts[1] != "native" || parts[2] != "0rtt" {
+		return false
+	}
+
+	key, err := base64.RawURLEncoding.DecodeString(parts[3])
+	if err != nil {
+		return false
+	}
+
+	return len(key) == 32 || len(key) == 1184
 }
