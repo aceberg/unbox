@@ -37,6 +37,7 @@ func main() {
 		confCmd := flag.NewFlagSet("unbox conf", flag.ExitOnError)
 
 		dedupPtr := confCmd.Bool("d", false, "Deduplicate")
+		pingPtr := confCmd.Bool("p", false, "Simple TCP ping")
 
 		apiPtr := confCmd.String("a", "", "URL of sing-box Clash API")
 		secPtr := confCmd.String("as", "", "Clash API secret")
@@ -69,6 +70,8 @@ func main() {
 			conf.Deduplicate()
 		} else if *inpPtr != "" {
 			conf.Invert()
+		} else if *pingPtr {
+			conf.Ping()
 		} else {
 			conf.RemoveUnreachable()
 		}

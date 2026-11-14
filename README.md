@@ -1,6 +1,7 @@
 [![Main-Docker](https://github.com/aceberg/unbox/actions/workflows/main-docker-all.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/main-docker-all.yml)
 [![Binary-release](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-release.yml)
 [![Binary-Android](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml/badge.svg)](https://github.com/aceberg/unbox/actions/workflows/binary-android.yml)
+![Docker Pulls](https://img.shields.io/docker/pulls/aceberg/unbox?style=flat&logo=docker)
 
 <h1><a href="https://github.com/aceberg/unbox">
     <img src="https://raw.githubusercontent.com/aceberg/unbox/main/assets/logo.png" width="30" />

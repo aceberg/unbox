@@ -25,6 +25,10 @@ drun:
 	go run . conf \
  		-o tmp/sing-box.json -d
 
+ping:
+	go run . conf \
+ 		-o tmp/sing-box.json -p
+
 krun:
 	go run . keep \
 		-a "http://127.0.0.1:9099"
