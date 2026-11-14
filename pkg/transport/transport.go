@@ -5,6 +5,8 @@ import (
 	"net/url"
 	"slices"
 	"strings"
+
+	"github.com/aceberg/unbox/internal/share"
 )
 
 // Headers for Transport struct
@@ -20,6 +22,8 @@ type Transport struct {
 	ServName string   `json:"service_name,omitempty"`
 	IdleTout string   `json:"idle_timeout,omitempty"`
 	PingTout string   `json:"ping_timeout,omitempty"`
+	Mode     string   `json:"mode,omitempty"`
+	Host     string   `json:"host,omitempty"`
 }
 
 // Get converts url.Values to Transport struct
@@ -32,8 +36,9 @@ func Get(q url.Values) (Transport, bool) {
 		return res, false
 	}
 
-	allowedTransport := []string{"ws", "quic", "grpc", "httpupgrade"}
-	if !slices.Contains(allowedTransport, tp) {
+	allowedTransport := []string{"ws", "quic", "grpc", "httpupgrade", "xhttp"}
+	if !slices.Contains(allowedTransport, tp) ||
+		(!share.ParseSettings.LxCompat && tp == "xhttp") {
 		log.Println("ERROR: unsupported transport type", tp)
 		return res, false
 	}
@@ -58,6 +63,13 @@ func Get(q url.Values) (Transport, bool) {
 		}
 		res.Type = tp
 		res.Head = head
+		res.Path = validateWSPath(q.Get("path"))
+	}
+
+	if tp == "xhttp" {
+		res.Type = tp
+		res.Host = q.Get("host")
+		res.Mode = q.Get("mode")
 		res.Path = validateWSPath(q.Get("path"))
 	}
 

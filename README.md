@@ -133,6 +133,7 @@ unbox parse -f VLESS.txt -t tmpl.json -o sing-box.json -j
 | --- | ----------- | ------- |
 | -f | Path to file with URLs | VLESS.txt |
 | -j | Validate and Indent JSON output |  |
+| -lx | Compatible with sing-box-lx (xhttp, VLESS encryption) |  |
 | -n | Rename tags. If used, will rename tags to `tag1`, `tag2`... | |
 | -o | Path to output sing-box config file |  |
 | -p | Prefix to add before each tag |  |

@@ -111,6 +111,7 @@ func main() {
 
 		jsonPtr := parseCmd.Bool("j", false, "Validate and Indent JSON output")
 		namePtr := parseCmd.Bool("n", false, "Rename tags")
+		lxPtr := parseCmd.Bool("lx", false, "Compatible with sing-box-lx (xhttp, VLESS encryption)")
 
 		filePtr := parseCmd.String("f", "VLESS.txt", "Path to file with URLs")
 		outPtr := parseCmd.String("o", "", "Path to output sing-box config file")
@@ -120,13 +121,14 @@ func main() {
 		err := parseCmd.Parse(os.Args[2:])
 		check.IfError(err)
 
-		parse.Settings = parse.SettingsType{
+		share.ParseSettings = share.ParseSettingsType{
 			FilePath:     *filePtr,
 			TemplatePath: *tmplPtr,
 			OutPath:      *outPtr,
 			RenameTags:   *namePtr,
 			ValidateJSON: *jsonPtr,
 			TagPrefix:    *prePtr,
+			LxCompat:     *lxPtr,
 		}
 
 		parse.Start()

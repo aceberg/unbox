@@ -22,3 +22,17 @@ type SettingsType struct {
 
 // Settings contains unbox settings for conf and keep
 var Settings SettingsType
+
+// ParseSettingsType contains unbox settings for parse
+type ParseSettingsType struct {
+	FilePath     string
+	OutPath      string
+	TemplatePath string
+	TagPrefix    string
+	RenameTags   bool
+	ValidateJSON bool
+	LxCompat     bool
+}
+
+// ParseSettings contains unbox settings for parse
+var ParseSettings ParseSettingsType

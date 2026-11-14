@@ -9,11 +9,12 @@ import (
 	"text/template"
 
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/share"
 )
 
 func getLinksFromFile() (string, bool) {
 
-	f, err := os.ReadFile(Settings.FilePath)
+	f, err := os.ReadFile(share.ParseSettings.FilePath)
 	if check.IfError(err) {
 		log.Println("ERROR: Input file error. Exiting...")
 		return "", false
@@ -26,11 +27,11 @@ func insertToTemplate() string {
 
 	res := strings.Join(result, ",\n")
 
-	if Settings.TemplatePath == "" {
+	if share.ParseSettings.TemplatePath == "" {
 		return res
 	}
 
-	t, err := template.ParseFiles(Settings.TemplatePath)
+	t, err := template.ParseFiles(share.ParseSettings.TemplatePath)
 	if check.IfError(err) {
 		log.Println("ERROR: Template file error")
 		return res
@@ -51,7 +52,7 @@ func insertToTemplate() string {
 
 func outToFile(out string) {
 
-	err := os.WriteFile(Settings.OutPath, []byte(out), 0644)
+	err := os.WriteFile(share.ParseSettings.OutPath, []byte(out), 0644)
 	if check.IfError(err) {
 		log.Println("ERROR: Output file error")
 	}

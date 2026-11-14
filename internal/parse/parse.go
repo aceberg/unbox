@@ -8,6 +8,7 @@ import (
 	"unicode"
 
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/share"
 	"github.com/aceberg/unbox/pkg/anytls"
 	"github.com/aceberg/unbox/pkg/hysteria2"
 	"github.com/aceberg/unbox/pkg/shadowsocks"
@@ -108,13 +109,13 @@ func parseFile() {
 
 func renameTag(in string) (out string) {
 
-	if Settings.RenameTags {
+	if share.ParseSettings.RenameTags {
 		out = fmt.Sprint("tag", i)
 	} else {
 		out = sanitizeTag(in) + fmt.Sprint(" ", i)
 	}
-	if Settings.TagPrefix != "" {
-		out = Settings.TagPrefix + out
+	if share.ParseSettings.TagPrefix != "" {
+		out = share.ParseSettings.TagPrefix + out
 	}
 
 	i = i + 1

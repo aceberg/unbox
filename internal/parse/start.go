@@ -2,20 +2,9 @@ package parse
 
 import (
 	"fmt"
+
+	"github.com/aceberg/unbox/internal/share"
 )
-
-// SettingsType contains unbox settings for parse
-type SettingsType struct {
-	FilePath     string
-	OutPath      string
-	TemplatePath string
-	TagPrefix    string
-	RenameTags   bool
-	ValidateJSON bool
-}
-
-// Settings contains unbox settings for parse
-var Settings SettingsType
 
 var (
 	result []string
@@ -34,11 +23,11 @@ func Start() {
 
 	resStr := insertToTemplate()
 
-	if Settings.ValidateJSON {
+	if share.ParseSettings.ValidateJSON {
 		resStr = valIndent(resStr)
 	}
 
-	if Settings.OutPath != "" {
+	if share.ParseSettings.OutPath != "" {
 		outToFile(resStr)
 	} else {
 		fmt.Println(resStr)

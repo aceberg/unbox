@@ -23,6 +23,10 @@ func (h VLESS) ToURL() string {
 		q.Set("flow", h.Flow)
 	}
 
+	if h.Encryption != "" {
+		q.Set("encryption", h.Encryption)
+	}
+
 	u.RawQuery = q.Encode()
 
 	return u.String()

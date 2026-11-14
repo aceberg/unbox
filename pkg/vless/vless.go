@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/aceberg/unbox/internal/check"
+	"github.com/aceberg/unbox/internal/share"
 	"github.com/aceberg/unbox/pkg/tls"
 	"github.com/aceberg/unbox/pkg/transport"
 )
@@ -59,6 +60,13 @@ func Parse(raw string) (*VLESS, error) {
 
 		if res.Trans.Type == "quic" && res.TLS == nil {
 			return nil, errors.New("TLS required for transport type quic: " + raw)
+		}
+	}
+
+	if share.ParseSettings.LxCompat {
+		enc := q.Get("encryption")
+		if enc != "" && enc != "none" {
+			res.Encryption = enc
 		}
 	}
 

@@ -29,6 +29,17 @@ func (tr *Transport) ToValues() url.Values {
 			q.Set("host", tr.Head.Host)
 		}
 
+	case "xhttp":
+		q.Set("type", "xhttp")
+		if tr.Path != "" {
+			q.Set("path", tr.Path)
+		}
+		if tr.Mode != "" {
+			q.Set("mode", tr.Mode)
+		}
+		if tr.Host != "" {
+			q.Set("host", tr.Host)
+		}
 	}
 
 	return q
