@@ -31,6 +31,8 @@ func PortReachable(server string, port string) bool {
 		return false
 	}
 
-	conn.Close()
+	err = conn.Close()
+	IfError(err)
+
 	return true
 }

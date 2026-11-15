@@ -36,9 +36,9 @@ func Get(q url.Values) (Transport, bool) {
 		return res, false
 	}
 
-	allowedTransport := []string{"ws", "quic", "grpc", "httpupgrade", "xhttp"}
-	if !slices.Contains(allowedTransport, tp) ||
-		(!share.ParseSettings.LxCompat && tp == "xhttp") {
+	allowed := []string{"ws", "quic", "grpc", "httpupgrade", "xhttp", "splithttp"}
+	if !slices.Contains(allowed, tp) ||
+		(!share.ParseSettings.LxCompat && (tp == "xhttp" || tp == "splithttp")) {
 		log.Println("ERROR: unsupported transport type", tp)
 		return res, false
 	}
@@ -66,11 +66,16 @@ func Get(q url.Values) (Transport, bool) {
 		res.Path = validateWSPath(q.Get("path"))
 	}
 
-	if tp == "xhttp" {
-		res.Type = tp
+	if tp == "xhttp" || tp == "splithttp" {
+		res.Type = "xhttp"
 		res.Host = q.Get("host")
 		res.Mode = q.Get("mode")
 		res.Path = validateWSPath(q.Get("path"))
+
+		allowed = []string{"auto", "packet-up", "stream-up", "stream-one"}
+		if !slices.Contains(allowed, res.Mode) {
+			res.Mode = "auto"
+		}
 	}
 
 	return res, true

@@ -27,7 +27,7 @@ drun:
 
 ping:
 	go run . conf \
- 		-o tmp/sing-box.json -p
+ 		-o tmp/sing-box.json -p -w 10
 
 krun:
 	go run . keep \

@@ -49,6 +49,7 @@ func main() {
 
 		limPtr := confCmd.Int("l", 3000, "Timeout for proxy delay (latency) check (ms)")
 		benPtr := confCmd.Int("n", 0, "Number of best servers to save (0 - save all)")
+		worPtr := confCmd.Int("w", 5, "Number of parallel workers")
 
 		err := confCmd.Parse(os.Args[2:])
 		check.IfError(err)
@@ -60,10 +61,10 @@ func main() {
 			LimitTimeout: *limPtr,
 			OutPath:      *outPtr,
 			InputPath:    *inpPtr,
-			Deduplicate:  *dedupPtr,
 			BestN:        *benPtr,
 			ProxyForTLS:  *tlpPtr,
 			HostForTLS:   *tlhPtr,
+			Workers:      *worPtr,
 		}
 
 		if *dedupPtr {

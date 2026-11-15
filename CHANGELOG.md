@@ -2,6 +2,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## [v1.1.2] - 2026-11-15
+### Added
+- Simple TCP ping (for `vless`, `vmess`, `trojan`)
+- Number of workers for unreachable checks
+- Upd to `go 1.27.4`
+
 ## [v1.1.1] - 2026-11-14
 ### Added
 - Validate VLESS encryption

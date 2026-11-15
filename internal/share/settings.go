@@ -17,7 +17,7 @@ type SettingsType struct {
 	SwitchStep   int
 	BestN        int
 	BackupN      int
-	Deduplicate  bool
+	Workers      int
 }
 
 // Settings contains unbox settings for conf and keep

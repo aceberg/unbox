@@ -89,9 +89,17 @@ unbox conf -a "http://127.0.0.1:9090" -o sing-box.json
 | -l | Timeout for proxy delay (latency) check (ms) | 3000 |
 | -n | Number of best servers to save (0 - save all) | 0 |
 | -o | Path to sing-box config file |  |
+| -p | Simple TCP ping (for `vless`, `vmess`, `trojan`) |  |
 | -tlsh | Host to verify TLS certificate | github.com |
 | -tlsp | SOCKS5 proxy address for TLS check (example "127.0.0.1:1080") | |
 | -u | URL to test proxies. `https://www.gstatic.com/generate_204` will be used if empty |  |
+| -w | Number of parallel workers | 5 |
+
+Check if `server:port` is reachable and remove from `sing-box.json` if not. Will check only `vless`, `vmess`, `trojan` servers.
+
+```sh
+unbox conf -p -o sing-box.json
+```
 
 </details>
 

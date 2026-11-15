@@ -52,7 +52,7 @@ func checkAllTags() int {
 	jobs := make(chan Job)
 	var wg sync.WaitGroup
 
-	for range 5 {
+	for range share.Settings.Workers {
 		wg.Go(func() {
 			for job := range jobs {
 				api.CheckOneProxy(job.tag, "["+strconv.Itoa(job.i+1)+"-"+lStr+"]")
